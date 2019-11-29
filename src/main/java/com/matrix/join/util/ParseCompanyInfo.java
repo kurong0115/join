@@ -27,7 +27,7 @@ import java.util.List;
  */
 public class ParseCompanyInfo {
 
-	private static String cookie = "lastCity=101280600; _bl_uid=d0k0U24e9InrtFjzXxbFgyOmwRaO; __c=1574995699; __g=-; Hm_lvt_194df3105ad7148dcf2b98a91b5e727a=1574130322,1574941792,1574995700; __l=l=%2Fwww.zhipin.com%2F&r=https%3A%2F%2Fwww.baidu.com%2Flink%3Furl%3D3QEEr4zSvzuYMTWB9Df5HlDe60wbSbexYl3GNBCFhDAiHz0ymx9HzNcayrWNKcej%26wd%3D%26eqid%3Db9e15a0e00014a14000000065de086c7&friend_source=0&friend_source=0; toUrl=https%3A%2F%2Fwww.zhipin.com%2F%2Fjob_detail%2F727ea6d7962f9dfe0nN-3du4F1U%7E.html; JSESSIONID=\"\"; __a=41958594.1572227244.1574941792.1574995699.95.5.81.87; __zp_stoken__=6919LngXsPj%2F%2F0Q7t7985uBjoVyjnJTfkuY7ll%2FzqKtn6iABAP4SzBb6We%2F1UJxGQeGSpqPkR9PmIaqgJdl%2FoKt3iQ%3D%3D; Hm_lpvt_194df3105ad7148dcf2b98a91b5e727a=1575017755";
+	private static String cookie = "lastCity=101280600; _bl_uid=d0k0U24e9InrtFjzXxbFgyOmwRaO; __c=1574995699; __g=-; Hm_lvt_194df3105ad7148dcf2b98a91b5e727a=1574130322,1574941792,1574995700; __l=l=%2Fwww.zhipin.com%2F&r=https%3A%2F%2Fwww.baidu.com%2Flink%3Furl%3D3QEEr4zSvzuYMTWB9Df5HlDe60wbSbexYl3GNBCFhDAiHz0ymx9HzNcayrWNKcej%26wd%3D%26eqid%3Db9e15a0e00014a14000000065de086c7&friend_source=0&friend_source=0; JSESSIONID=\"\"; toUrl=https%3A%2F%2Fwww.zhipin.com%2Fgongsi%2F%3Fka%3Dheader_brand; __a=41958594.1572227244.1574941792.1574995699.106.5.92.98; Hm_lpvt_194df3105ad7148dcf2b98a91b5e727a=1575024272; __zp_stoken__=6919LngXsPj%2F%2F0Q7t7985uBjoWYGSCMcDoKjw5LkdB5o%2BeT9se1GRS9p0Ti8Y55vs9YX%2BPgVak19naT9YA%2Blo4B7nw%3D%3D";
 	private static BasicCookieStore basicCookieStore = new BasicCookieStore();
 
 	/**
@@ -133,10 +133,10 @@ public class ParseCompanyInfo {
 	public static void main(String[] args) {
 		System.out.println(System.currentTimeMillis() >> 1);
 		System.out.println(Integer.MAX_VALUE);
-		for (int i = 1; i<= 9; i++){
-			String content = getContent("https://www.zhipin.com/gongsi/?page=" + i + "&ka=page-" + i);
-//			String content = getContent("https://www.lagou.com/gongsi/");
-			writeFile(content, "d:/image/info" + 10 + i + ".html");
-		}
+//		for (int i = 1; i<= 9; i++){
+//			String content = getContent("https://www.zhipin.com/gongsi/?page=" + i + "&ka=page-" + i);
+			String content = getContent("https://www.zhipin.com/gongsi/5e139930da054b4233R43w~~.html?ka=brand_list_company_0");
+			writeFile(content, "d:/image/detail.html");
+//		}
 	}
 }

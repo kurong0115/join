@@ -85,4 +85,21 @@ public enum StageEnum {
 		}
 		return stage;
 	}
+
+	/**
+	 * 获取编码
+	 * @param stage
+	 * @return
+	 */
+	public static Integer getCode(String stage){
+		Integer code = null;
+		StageEnum[] enums = StageEnum.values();
+		for (StageEnum stageEnum: enums){
+			if (stage.equals(stageEnum.stage)){
+				code = stageEnum.code;
+				break;
+			}
+		}
+		return code;
+	}
 }

@@ -58,7 +58,7 @@ public enum ScaleEnum {
 	 * @param code
 	 * @return
 	 */
-	public static String getDescription(Integer code){
+	public static String getScale(Integer code){
 		ScaleEnum[] enums = ScaleEnum.values();
 		String scale = null;
 		for (ScaleEnum scaleEnum: enums){
@@ -68,5 +68,22 @@ public enum ScaleEnum {
 			}
 		}
 		return scale;
+	}
+
+	/**
+	 * 根据信息获取编码
+	 * @param scale
+	 * @return
+	 */
+	public static Integer getCode(String scale){
+		Integer code = null;
+		ScaleEnum[] enums = ScaleEnum.values();
+		for (ScaleEnum scaleEnum: enums){
+			if (scale.equals(scaleEnum.scale)){
+				code =  scaleEnum.code;
+				break;
+			}
+		}
+		return code;
 	}
 }
