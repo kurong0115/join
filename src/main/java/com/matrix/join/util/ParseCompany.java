@@ -44,7 +44,21 @@ public class ParseCompany {
 		Document document = getDocument(path);
 		Company company = parseCompany(document);
 		System.out.println(company);
+		List<CompanyImage> images = getImages(document);
+
 		return companyDTO;
+	}
+
+	public static List<CompanyImage> getImages(Document document){
+		List<CompanyImage> images = new ArrayList<>();
+		Element slider = document.getElementsByAttributeValue("class", "slider-main").first();
+		Elements elements = slider.getElementsByTag("img");
+		for (Element element: elements){
+			CompanyImage image = new CompanyImage();
+			int index = element.attr("src").indexOf("?");
+			image.setUrl(element.attr("src").substring(0, index));
+		}
+		return images;
 	}
 
 	public static Company parseCompany(Document document){
@@ -70,7 +84,6 @@ public class ParseCompany {
 		index = introduce.indexOf("<a ");
 		introduce = introduce.substring(0, index);
 		company.setIntroduce(introduce);
-		System.out.println(company.getIntroduce());
 		return company;
 	}
 }
