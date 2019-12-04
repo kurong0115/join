@@ -43,9 +43,12 @@ public class ParseCompany {
 		CompanyDTO companyDTO = new CompanyDTO();
 		Document document = getDocument(path);
 		Company company = parseCompany(document);
-		System.out.println(company);
 		List<CompanyImage> images = getImages(document);
-
+		CompanyDetail companyDetail = parseCompanyDetail(document);
+		companyDTO.setCompanyDetail(companyDetail);
+		companyDTO.setCompany(company);
+		companyDTO.setList(images);
+		System.out.println(companyDTO);
 		return companyDTO;
 	}
 
@@ -85,5 +88,22 @@ public class ParseCompany {
 		introduce = introduce.substring(0, index);
 		company.setIntroduce(introduce);
 		return company;
+	}
+
+	public static CompanyDetail parseCompanyDetail(Document document){
+		CompanyDetail companyDetail = new CompanyDetail();
+		Element business = document.getElementsByAttributeValue("class", "job-sec company-business").first();
+		Elements li = business.getElementsByTag("li");
+		companyDetail.setCorporator(li.first().text().replaceAll("法人代表：", ""));
+		companyDetail.setRegisteredFund(li.get(1).text().replaceAll("注册资本：", ""));
+		companyDetail.setCreateTime(li.get(2).text().replaceAll("成立时间：", ""));
+
+		Elements auto = business.getElementsByAttributeValue("class", "col-auto");
+		companyDetail.setType(auto.get(0).text().replaceAll("企业类型：", ""));
+		companyDetail.setStatus(auto.get(1).text().replaceAll("经营状态：", ""));
+		companyDetail.setRegisteredAddress(auto.get(2).text().replaceAll("注册地址：", ""));
+		companyDetail.setUniformCreditCode(auto.get(3).text().replaceAll("统一信用代码：", ""));
+		companyDetail.setScope(auto.get(4).text().replaceAll("经营范围：", ""));
+		return companyDetail;
 	}
 }
