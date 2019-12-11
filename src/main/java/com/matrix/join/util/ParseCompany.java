@@ -39,6 +39,15 @@ public class ParseCompany {
 		return document;
 	}
 
+	public static String parseJob(Document document){
+		Element element = document.getElementsByAttributeValue("class", "company-tab").first();
+		Element ka = element.getElementsByAttributeValue("ka", "company-jobs").first();
+		StringBuilder sb = new StringBuilder();
+		sb.append("https://www.zhipin.com");
+		sb.append(ka.attr("href"));
+		return sb.toString();
+	}
+
 	public static CompanyDTO parseCompany(String path){
 		CompanyDTO companyDTO = new CompanyDTO();
 		Document document = getDocument(path);
@@ -48,6 +57,7 @@ public class ParseCompany {
 		companyDTO.setCompanyDetail(companyDetail);
 		companyDTO.setCompany(company);
 		companyDTO.setList(images);
+		System.out.println(parseJob(document));
 		System.out.println(companyDTO);
 		return companyDTO;
 	}
