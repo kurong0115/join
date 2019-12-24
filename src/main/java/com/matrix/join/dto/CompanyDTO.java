@@ -3,6 +3,7 @@ package com.matrix.join.dto;
 import com.matrix.join.po.Company;
 import com.matrix.join.po.CompanyDetail;
 import com.matrix.join.po.CompanyImage;
+import com.matrix.join.po.Job;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,5 +25,5 @@ public class CompanyDTO implements Serializable {
 	private Company company;
 	private CompanyDetail companyDetail;
 	private List<CompanyImage> list;
-
+	private List<Job> jobList;
 }

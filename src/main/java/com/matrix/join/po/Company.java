@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.sql.Timestamp;
 
 /**
@@ -19,6 +20,7 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 public class Company implements Serializable {
 	private Integer id;
+	private BigInteger companyNo;
 	private String name;
 	private String introduce;
 	private String city;

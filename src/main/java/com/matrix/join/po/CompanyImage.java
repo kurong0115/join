@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.sql.Timestamp;
 
 /**
@@ -20,7 +21,7 @@ import java.sql.Timestamp;
 public class CompanyImage implements Serializable {
 
 	private Integer id;
-	private Integer companyNo;
+	private BigInteger companyNo;
 	private String url;
 	private Timestamp gmtCreate;
 	private Timestamp gmtModified;

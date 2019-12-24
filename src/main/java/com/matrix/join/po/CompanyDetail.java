@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+import java.math.BigInteger;
 import java.sql.Timestamp;
 
 /**
@@ -16,9 +18,9 @@ import java.sql.Timestamp;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CompanyDetail {
+public class CompanyDetail implements Serializable {
 	private Integer id;
-	private Integer companyNo;
+	private BigInteger companyNo;
 	private String corporator;
 	private String registeredFund;
 	private String createTime;
