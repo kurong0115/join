@@ -13,6 +13,8 @@ import org.jsoup.select.Elements;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,9 +28,18 @@ import java.util.List;
 public class ParseCompany {
 
 	public static void main(String[] args) {
-		CompanyDTO companyDTO = parseCompany("d:/image/detail.html");
-	}
+        try {
+            CompanyDTO companyDTO = parseCompany("d:/tmp/info/detail.html");
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+    }
 
+    /**
+     * 从本地文件读取dom信息
+     * @param path
+     * @return
+     */
 	public static Document getDocument(String path){
 		Document document = null;
 		try {
@@ -39,6 +50,21 @@ public class ParseCompany {
 		return document;
 	}
 
+    /**
+     * 从url中读取dom信息
+     * @param url
+     * @return
+     */
+	public static Document getDocument(URL url){
+	    Document document = null;
+        try {
+            document = Jsoup.parse(url, 10000);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return document;
+    }
+
 	public static String parseJob(Document document){
 		Element element = document.getElementsByAttributeValue("class", "company-tab").first();
 		Element ka = element.getElementsByAttributeValue("ka", "company-jobs").first();
@@ -48,7 +74,12 @@ public class ParseCompany {
 		return sb.toString();
 	}
 
-	public static CompanyDTO parseCompany(String path){
+	/**
+	 * 爬取一个公司下的图片、详情信息、职位信息
+	 * @param path
+	 * @return
+	 */
+	public static CompanyDTO parseCompany(String path) throws MalformedURLException {
 		CompanyDTO companyDTO = new CompanyDTO();
 		Document document = getDocument(path);
 		Company company = parseCompany(document);
@@ -57,8 +88,8 @@ public class ParseCompany {
 		companyDTO.setCompanyDetail(companyDetail);
 		companyDTO.setCompany(company);
 		companyDTO.setList(images);
-		System.out.println(parseJob(document));
-		System.out.println(companyDTO);
+		String job = parseJob(document);
+        System.out.println(job);
 		return companyDTO;
 	}
 

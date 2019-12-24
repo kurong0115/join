@@ -29,8 +29,4 @@ public class Company implements Serializable {
 	private Timestamp gmtCreate;
 	private Timestamp gmtModified;
 
-	/**
-	 * 临时字段
-	 */
-	private String temp;
 }

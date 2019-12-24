@@ -27,7 +27,7 @@ import java.util.List;
  */
 public class ParseCompanyInfo {
 
-	private static String cookie = "lastCity=101280600; _bl_uid=d0k0U24e9InrtFjzXxbFgyOmwRaO; __c=1574995699; __g=-; Hm_lvt_194df3105ad7148dcf2b98a91b5e727a=1574130322,1574941792,1574995700; __l=l=%2Fwww.zhipin.com%2F&r=https%3A%2F%2Fwww.baidu.com%2Flink%3Furl%3D3QEEr4zSvzuYMTWB9Df5HlDe60wbSbexYl3GNBCFhDAiHz0ymx9HzNcayrWNKcej%26wd%3D%26eqid%3Db9e15a0e00014a14000000065de086c7&friend_source=0&friend_source=0; JSESSIONID=\"\"; toUrl=https%3A%2F%2Fwww.zhipin.com%2Fgongsi%2F%3Fka%3Dheader_brand; __a=41958594.1572227244.1574941792.1574995699.106.5.92.98; Hm_lpvt_194df3105ad7148dcf2b98a91b5e727a=1575024272; __zp_stoken__=6919LngXsPj%2F%2F0Q7t7985uBjoWYGSCMcDoKjw5LkdB5o%2BeT9se1GRS9p0Ti8Y55vs9YX%2BPgVak19naT9YA%2Blo4B7nw%3D%3D";
+	private static String cookie = "uab_collina=157715497230803602367748; lastCity=101280100; _bl_uid=emk5g4717U52tmcgR698yygy486t; __c=1577154971; __g=-; __l=l=%2Fwww.zhipin.com%2Fweb%2Fcommon%2Fsecurity-check.html%3Fseed%3Dk0ZSgCagif%252FKhcw8HHPeZUSiew8vwelZDD6H7DGDUcw%253D%26name%3D058ad436%26ts%3D1577154971622%26callbackUrl%3D%252Fgongsir%252F5e139930da054b4233R43w%257E%257E.html%26srcReferer%3D&r=&friend_source=0&friend_source=0; Hm_lvt_194df3105ad7148dcf2b98a91b5e727a=1576417569,1577154973; __a=65409055.1576417563.1576417599.1577154971.19.3.15.19; Hm_lpvt_194df3105ad7148dcf2b98a91b5e727a=1577166039; __zp_stoken__=cdcfxthucrXQ9BSHReE3wcldvSWORT2V5i0Rlxfh3nBxKmz7xZgH7sdXV6j3%2Fu1OWnkxkPzRRXC1PGT2XxFnW37wkDhPYbXdtc9KDnbZVZnGJYMtzTbe9GjieJtE47n7VmCN";
 	private static BasicCookieStore basicCookieStore = new BasicCookieStore();
 
 	/**
@@ -48,6 +48,7 @@ public class ParseCompanyInfo {
 		requestMethod.setHeader("Accept-Language", "zh-cn,zh;q=0.5");
 		requestMethod.setHeader("Accept-Charset", "GB2312,utf-8;q=0.7,*;q=0.7");
 		requestMethod.setHeader("accept-encoding", "gzip");
+		requestMethod.setHeader("refer",  "https://www.zhipin.com/gongsi/37f2888188aaedbe1XN92dq9.html?ka=brand_list_company_1");
 		requestMethod.setHeader("cookie", cookie);
 	}
 
@@ -135,8 +136,8 @@ public class ParseCompanyInfo {
 		System.out.println(Integer.MAX_VALUE);
 //		for (int i = 1; i<= 9; i++){
 //			String content = getContent("https://www.zhipin.com/gongsi/?page=" + i + "&ka=page-" + i);
-			String content = getContent("https://www.zhipin.com/gongsi/5e139930da054b4233R43w~~.html?ka=brand_list_company_0");
-			writeFile(content, "d:/image/detail.html");
+			String content = getContent("https://www.zhipin.com/gongsir/5e139930da054b4233R43w~~.html");
+			writeFile(content, "d:/tmp/info/job.html");
 //		}
 	}
 }
