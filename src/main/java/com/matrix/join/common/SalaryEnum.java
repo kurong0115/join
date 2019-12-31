@@ -68,7 +68,7 @@ public enum SalaryEnum {
      * @param code
      * @param salary
      */
-    private SalaryEnum(Integer code, String salary){
+    private SalaryEnum(Integer code, String salary) {
         this.code = code;
         this.salary = salary;
     }
@@ -78,10 +78,10 @@ public enum SalaryEnum {
      * @param code
      * @return
      */
-    public static String salary(Integer code){
+    public static String salary(Integer code) {
         SalaryEnum[] enums = SalaryEnum.values();
-        for (SalaryEnum salaryEnum: enums){
-            if (salaryEnum.code.equals(code)){
+        for (SalaryEnum salaryEnum: enums) {
+            if (salaryEnum.code.equals(code)) {
                 return salaryEnum.salary;
             }
         }
@@ -93,10 +93,10 @@ public enum SalaryEnum {
      * @param salary
      * @return
      */
-    public static Integer code(String salary){
+    public static Integer code(String salary) {
         SalaryEnum[] enums = SalaryEnum.values();
-        for (SalaryEnum salaryEnum: enums){
-            if (salaryEnum.salary.equals(salary)){
+        for (SalaryEnum salaryEnum: enums) {
+            if (salaryEnum.salary.equals(salary)) {
                 return salaryEnum.code;
             }
         }
