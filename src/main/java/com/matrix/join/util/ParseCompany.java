@@ -1,11 +1,14 @@
 package com.matrix.join.util;
 
+import com.matrix.join.common.EducationEnum;
 import com.matrix.join.common.ScaleEnum;
 import com.matrix.join.common.StageEnum;
+import com.matrix.join.common.WorkExperienceEnum;
 import com.matrix.join.dto.CompanyDTO;
 import com.matrix.join.po.Company;
 import com.matrix.join.po.CompanyDetail;
 import com.matrix.join.po.CompanyImage;
+import com.matrix.join.po.Job;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -65,7 +68,7 @@ public class ParseCompany {
         return document;
     }
 
-	public static String parseJob(Document document){
+	public static String getJobUrl(Document document){
 		Element element = document.getElementsByAttributeValue("class", "company-tab").first();
 		Element ka = element.getElementsByAttributeValue("ka", "company-jobs").first();
 		StringBuilder sb = new StringBuilder();
@@ -88,7 +91,10 @@ public class ParseCompany {
 		companyDTO.setCompanyDetail(companyDetail);
 		companyDTO.setCompany(company);
 		companyDTO.setList(images);
-		String job = parseJob(document);
+		String jobUrl = getJobUrl(document);
+        System.out.println(jobUrl);
+        document = getDocument("d:/tmp/info/job_list.html");
+        Job job = parseJob(document);
         System.out.println(job);
 		return companyDTO;
 	}
@@ -146,5 +152,28 @@ public class ParseCompany {
 		companyDetail.setUniformCreditCode(auto.get(3).text().replaceAll("统一信用代码：", ""));
 		companyDetail.setScope(auto.get(4).text().replaceAll("经营范围：", ""));
 		return companyDetail;
+	}
+
+	public static Job parseJob(Document document) {
+		Job job = new Job();
+        Element primaryInfo = document.getElementsByAttributeValue("class", "info-primary").first();
+        job.setName(primaryInfo.getElementsByTag("h1").first().text());
+        job.setBenefit(primaryInfo.getElementsByAttributeValue("class", "tag-all job-tags").first().html());
+        String p = primaryInfo.getElementsByTag("p").first().html();
+        System.out.println(p);
+        String[] split = p.split("<em class=\"dolt\"></em>");
+        for (int i = 0; i < split.length; i++) {
+            if (i == 0){
+                job.setName(split[i]);
+            } else if (i == 1) {
+                Integer code = WorkExperienceEnum.code(split[i]);
+                if (code != null){
+                    job.setWorkExperience(code.byteValue());
+                }
+            } else {
+                job.setEducation(EducationEnum.code(split[i]).byteValue());
+            }
+        }
+        return job;
 	}
 }

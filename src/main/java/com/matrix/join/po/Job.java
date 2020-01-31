@@ -1,5 +1,7 @@
 package com.matrix.join.po;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.matrix.join.constant.BasicConstant;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,11 +24,24 @@ public class Job {
     private String name;
     private BigInteger companyNo;
     private String creator;
+    private Byte jobType;
+    private Byte jobCategory;
     private Byte salary;
     private Byte workExperience;
     private Byte education;
+    private Byte gender;
     private String city;
     private String benefit;
+
+    /**
+     * 创建时间
+     */
+    @JSONField(format = BasicConstant.DATA_PATTERN)
     private Timestamp gmtCreate;
+
+    /**
+     * 修改时间
+     */
+    @JSONField(format = BasicConstant.DATA_PATTERN)
     private Timestamp gmtModified;
 }

@@ -1,5 +1,9 @@
 package com.matrix.join.common;
 
+import com.alibaba.fastjson.JSON;
+import lombok.Data;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
+
 /**
  * @ClassName EducationEnum
  * @Description 学历要求枚举
@@ -59,7 +63,7 @@ public enum EducationEnum {
      * @param code
      * @param education
      */
-    private EducationEnum(Integer code, String education){
+    private EducationEnum(Integer code, String education) {
         this.code = code;
         this.education = education;
     }
@@ -69,10 +73,10 @@ public enum EducationEnum {
      * @param code
      * @return
      */
-    public static String education(Integer code){
+    public static String education(Integer code) {
         EducationEnum[] enums = EducationEnum.values();
-        for (EducationEnum educationEnum: enums){
-            if (educationEnum.code.equals(code)){
+        for (EducationEnum educationEnum: enums) {
+            if (educationEnum.code.equals(code)) {
                 return educationEnum.education;
             }
         }
@@ -84,13 +88,21 @@ public enum EducationEnum {
      * @param education
      * @return
      */
-    public static Integer code(String education){
+    public static Integer code(String education) {
         EducationEnum[] enums = EducationEnum.values();
-        for (EducationEnum educationEnum: enums){
-            if (educationEnum.education.equals(education)){
+        for (EducationEnum educationEnum: enums) {
+            if (educationEnum.education.equals(education)) {
                 return educationEnum.code;
             }
         }
         return null;
+    }
+
+    @Override
+    public String toString() {
+        return "EducationEnum{" +
+                "code=" + code +
+                ", education='" + education + '\'' +
+                '}';
     }
 }

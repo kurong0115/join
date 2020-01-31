@@ -59,7 +59,7 @@ public enum WorkExperienceEnum {
      * @param code
      * @param workExperience
      */
-    private WorkExperienceEnum(Integer code, String workExperience){
+    private WorkExperienceEnum(Integer code, String workExperience) {
         this.code = code;
         this.workExperience = workExperience;
     }
@@ -69,10 +69,10 @@ public enum WorkExperienceEnum {
      * @param workExperience
      * @return
      */
-    public static Integer code(String workExperience){
+    public static Integer code(String workExperience) {
         WorkExperienceEnum[] enums = WorkExperienceEnum.values();
-        for (WorkExperienceEnum workExperienceEnum: enums){
-            if (workExperienceEnum.workExperience.equals(workExperience)){
+        for (WorkExperienceEnum workExperienceEnum: enums) {
+            if (workExperienceEnum.workExperience.equals(workExperience)) {
                 return workExperienceEnum.code;
             }
         }
@@ -84,10 +84,10 @@ public enum WorkExperienceEnum {
      * @param code
      * @return
      */
-    public static String workExperience(Integer code){
+    public static String workExperience(Integer code) {
         WorkExperienceEnum[] enums = WorkExperienceEnum.values();
-        for (WorkExperienceEnum workExperienceEnum: enums){
-            if (workExperienceEnum.code.equals(code)){
+        for (WorkExperienceEnum workExperienceEnum: enums) {
+            if (workExperienceEnum.code.equals(code)) {
                 return workExperienceEnum.workExperience;
             }
         }

@@ -64,7 +64,7 @@ public enum StageEnum {
 	 * @param code
 	 * @param stage
 	 */
-	private StageEnum(Integer code, String stage){
+	private StageEnum(Integer code, String stage) {
 		this.code = code;
 		this.stage = stage;
 	}
@@ -74,11 +74,11 @@ public enum StageEnum {
 	 * @param code
 	 * @return
 	 */
-	public static String stage(Integer code){
+	public static String stage(Integer code) {
 		String stage = null;
 		StageEnum[] enums = StageEnum.values();
-		for (StageEnum stageEnum: enums){
-			if (code.equals(stageEnum.code)){
+		for (StageEnum stageEnum: enums) {
+			if (code.equals(stageEnum.code)) {
 				stage = stageEnum.stage;
 				break;
 			}
@@ -91,11 +91,11 @@ public enum StageEnum {
 	 * @param stage
 	 * @return
 	 */
-	public static Integer getCode(String stage){
+	public static Integer getCode(String stage) {
 		Integer code = null;
 		StageEnum[] enums = StageEnum.values();
-		for (StageEnum stageEnum: enums){
-			if (stage.equals(stageEnum.stage)){
+		for (StageEnum stageEnum: enums) {
+			if (stage.equals(stageEnum.stage)) {
 				code = stageEnum.code;
 				break;
 			}

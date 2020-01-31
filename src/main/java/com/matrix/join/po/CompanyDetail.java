@@ -1,5 +1,7 @@
 package com.matrix.join.po;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.matrix.join.constant.BasicConstant;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,6 +31,16 @@ public class CompanyDetail implements Serializable {
 	private String registeredAddress;
 	private String uniformCreditCode;
 	private String scope;
+
+	/**
+	 * 创建时间
+	 */
+	@JSONField(format = BasicConstant.DATA_PATTERN)
 	private Timestamp gmtCreate;
+
+	/**
+	 * 修改时间
+	 */
+	@JSONField(format = BasicConstant.DATA_PATTERN)
 	private Timestamp gmtModified;
 }
