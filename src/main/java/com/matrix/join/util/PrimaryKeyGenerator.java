@@ -1,8 +1,6 @@
 package com.matrix.join.util;
 
 import java.math.BigInteger;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
@@ -13,6 +11,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * @Version 1.0
  */
 public class PrimaryKeyGenerator {
+
     private static ReentrantLock lock = new ReentrantLock();
 
     /**
@@ -33,4 +32,7 @@ public class PrimaryKeyGenerator {
         return bigInteger;
     }
 
+    public static void main(String[] args) {
+        System.out.println(generatePrimaryKey());
+    }
 }

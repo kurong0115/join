@@ -1,7 +1,7 @@
-package com.matrix.join.mapper;
+package com.matrix.join.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.matrix.join.po.Company;
+import com.matrix.join.po.CompanyEntity;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -12,6 +12,6 @@ import org.springframework.stereotype.Repository;
  * @Version 1.0
  */
 @Repository
-public interface CompanyMapper extends BaseMapper<Company> {
+public interface CompanyMapper extends BaseMapper<CompanyEntity> {
 
 }

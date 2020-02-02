@@ -1,8 +1,8 @@
 package com.matrix.join.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.matrix.join.mapper.CompanyMapper;
-import com.matrix.join.po.Company;
+import com.matrix.join.dao.CompanyMapper;
+import com.matrix.join.po.CompanyEntity;
 import com.matrix.join.service.CompanyService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Transactional(rollbackFor = Exception.class)
-public class CompanyServiceImpl extends ServiceImpl<CompanyMapper, Company> implements CompanyService {
+public class CompanyServiceImpl extends ServiceImpl<CompanyMapper, CompanyEntity> implements CompanyService {
 
 }

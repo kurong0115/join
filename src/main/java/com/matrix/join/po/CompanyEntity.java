@@ -1,6 +1,6 @@
 package com.matrix.join.po;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.matrix.join.constant.BasicConstant;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,7 +26,7 @@ import java.sql.Timestamp;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class Company implements Serializable {
+public class CompanyEntity implements Serializable {
 
 	private static final long serialVersionUID = -5442916341874138184L;
 
@@ -84,13 +84,13 @@ public class Company implements Serializable {
     /**
      * 创建时间
      */
-    @JSONField(format = BasicConstant.DATA_PATTERN)
+    @JsonFormat(pattern = BasicConstant.DATA_PATTERN)
     private Timestamp gmtCreate;
 
     /**
      * 修改时间
      */
-    @JSONField(format = BasicConstant.DATA_PATTERN)
+    @JsonFormat(pattern = BasicConstant.DATA_PATTERN)
     private Timestamp gmtModified;
 
 }

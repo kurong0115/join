@@ -1,8 +1,8 @@
 package com.matrix.join.controller;
 
 import com.matrix.join.common.EducationEnum;
-import com.matrix.join.mapper.CompanyMapper;
-import com.matrix.join.po.Company;
+import com.matrix.join.dao.CompanyMapper;
+import com.matrix.join.po.CompanyEntity;
 import com.matrix.join.protocol.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -26,7 +26,7 @@ public class CompanyController {
     CompanyMapper companyMapper;
 
     @PostMapping("/listAll")
-    public Object listAll(@RequestBody @Valid Company company, BindingResult bindingResult) {
+    public Object listAll(@RequestBody @Valid CompanyEntity company, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return bindingResult.getAllErrors();
         }

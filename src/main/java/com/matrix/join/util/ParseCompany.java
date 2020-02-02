@@ -5,10 +5,10 @@ import com.matrix.join.common.ScaleEnum;
 import com.matrix.join.common.StageEnum;
 import com.matrix.join.common.WorkExperienceEnum;
 import com.matrix.join.dto.CompanyDTO;
-import com.matrix.join.po.Company;
-import com.matrix.join.po.CompanyDetail;
-import com.matrix.join.po.CompanyImage;
-import com.matrix.join.po.Job;
+import com.matrix.join.po.CompanyEntity;
+import com.matrix.join.po.CompanyDetailEntity;
+import com.matrix.join.po.CompanyImageEntity;
+import com.matrix.join.po.JobEntity;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -85,34 +85,34 @@ public class ParseCompany {
 	public static CompanyDTO parseCompany(String path) throws MalformedURLException {
 		CompanyDTO companyDTO = new CompanyDTO();
 		Document document = getDocument(path);
-		Company company = parseCompany(document);
-		List<CompanyImage> images = getImages(document);
-		CompanyDetail companyDetail = parseCompanyDetail(document);
+		CompanyEntity company = parseCompany(document);
+		List<CompanyImageEntity> images = getImages(document);
+		CompanyDetailEntity companyDetail = parseCompanyDetail(document);
 		companyDTO.setCompanyDetail(companyDetail);
 		companyDTO.setCompany(company);
 		companyDTO.setList(images);
 		String jobUrl = getJobUrl(document);
         System.out.println(jobUrl);
         document = getDocument("d:/tmp/info/job_list.html");
-        Job job = parseJob(document);
+        JobEntity job = parseJob(document);
         System.out.println(job);
 		return companyDTO;
 	}
 
-	public static List<CompanyImage> getImages(Document document){
-		List<CompanyImage> images = new ArrayList<>();
+	public static List<CompanyImageEntity> getImages(Document document){
+		List<CompanyImageEntity> images = new ArrayList<>();
 		Element slider = document.getElementsByAttributeValue("class", "slider-main").first();
 		Elements elements = slider.getElementsByTag("img");
 		for (Element element: elements){
-			CompanyImage image = new CompanyImage();
+			CompanyImageEntity image = new CompanyImageEntity();
 			int index = element.attr("src").indexOf("?");
 			image.setUrl(element.attr("src").substring(0, index));
 		}
 		return images;
 	}
 
-	public static Company parseCompany(Document document){
-		Company company = new Company();
+	public static CompanyEntity parseCompany(Document document){
+		CompanyEntity company = new CompanyEntity();
 		Elements elements = document.getElementsByAttributeValue("class", "info-primary");
 		Element first = elements.first();
 		Element img = first.getElementsByTag("img").first();
@@ -137,8 +137,8 @@ public class ParseCompany {
 		return company;
 	}
 
-	public static CompanyDetail parseCompanyDetail(Document document){
-		CompanyDetail companyDetail = new CompanyDetail();
+	public static CompanyDetailEntity parseCompanyDetail(Document document){
+		CompanyDetailEntity companyDetail = new CompanyDetailEntity();
 		Element business = document.getElementsByAttributeValue("class", "job-sec company-business").first();
 		Elements li = business.getElementsByTag("li");
 		companyDetail.setCorporator(li.first().text().replaceAll("法人代表：", ""));
@@ -154,8 +154,8 @@ public class ParseCompany {
 		return companyDetail;
 	}
 
-	public static Job parseJob(Document document) {
-		Job job = new Job();
+	public static JobEntity parseJob(Document document) {
+		JobEntity job = new JobEntity();
         Element primaryInfo = document.getElementsByAttributeValue("class", "info-primary").first();
         job.setName(primaryInfo.getElementsByTag("h1").first().text());
         job.setBenefit(primaryInfo.getElementsByAttributeValue("class", "tag-all job-tags").first().html());

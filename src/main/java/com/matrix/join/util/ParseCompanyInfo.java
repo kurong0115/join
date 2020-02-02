@@ -1,13 +1,12 @@
 package com.matrix.join.util;
 
-import com.matrix.join.po.Company;
+import com.matrix.join.po.CompanyEntity;
 import org.apache.http.*;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.cookie.Cookie;
 import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
@@ -34,8 +33,8 @@ public class ParseCompanyInfo {
 	 * 解析页面信息，转换成实体类
 	 * @return
 	 */
-	public static List<Company> parseBaseInfo(){
-		List<Company> list = new ArrayList<>();
+	public static List<CompanyEntity> parseBaseInfo(){
+		List<CompanyEntity> list = new ArrayList<>();
 		return list;
 	}
 

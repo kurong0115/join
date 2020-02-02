@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * @Version 1.0
  */
 @Configuration
-@MapperScan(value = "com.matrix.join.mapper")
+@MapperScan(value = "com.matrix.join.dao")
 @EnableTransactionManagement
 public class PaginationConfig {
 

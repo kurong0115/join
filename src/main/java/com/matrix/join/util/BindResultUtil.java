@@ -2,8 +2,6 @@ package com.matrix.join.util;
 
 import org.springframework.validation.BindingResult;
 
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @ClassName BindResultUtil
@@ -19,13 +17,11 @@ public class BindResultUtil {
      * @param bindingResult
      * @return
      */
-    public static List<String> resolveError(BindingResult bindingResult) {
-        List<String> errorList = new ArrayList<>();
+    public static String resolveError(BindingResult bindingResult) {
+        String errorMessage = null;
         if (bindingResult.hasErrors()) {
-            bindingResult.getAllErrors().stream().forEach(x -> {
-                errorList.add(x.getDefaultMessage());
-            });
+            errorMessage = bindingResult.getAllErrors().get(0).getDefaultMessage();
         }
-        return errorList;
+        return errorMessage;
     }
 }
