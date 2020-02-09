@@ -1,7 +1,7 @@
 package com.matrix.join.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.matrix.join.po.CompanyEntity;
+import com.matrix.join.entity.CompanyEntity;
 
 /**
  * @ClassName CompanyService

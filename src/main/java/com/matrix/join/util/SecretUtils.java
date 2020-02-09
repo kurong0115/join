@@ -31,7 +31,16 @@ public class SecretUtils {
         return "";
     }
 
+    /**.
+     * 生成六位随机数字验证码
+     * @return
+     */
+    public static String generateCode() {
+        return String.valueOf((int) ((Math.random() * 9 + 1) * 100000));
+    }
+
     public static void main(String[] args) {
         System.out.println(getMD5String("123"));
+        System.out.println(generateCode());
     }
 }

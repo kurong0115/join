@@ -1,7 +1,9 @@
 package com.matrix.join.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.matrix.join.po.UserEntity;
+import com.matrix.join.entity.UserEntity;
+
+import java.math.BigInteger;
 
 /**
  * @ClassName UserService
@@ -22,15 +24,23 @@ public interface UserService extends IService<UserEntity> {
 
     /**
      * 根据用户编号获取用户信息
-     * @param userId
+     * @param userId 用户编号
      * @return
      */
-    UserEntity getUserByUserId(String userId);
+    UserEntity getUserByUserId(BigInteger userId);
 
     /**
      * 注册新用户
-     * @param userEntity
+     * @param userEntity 用户信息
+     * @param verification 验证码
      * @return
      */
-    UserEntity saveUser(UserEntity userEntity);
+    UserEntity saveUser(UserEntity userEntity, String verification);
+
+    /**
+     * 根据用户邮箱获取用户信息
+     * @param email 邮箱
+     * @return
+     */
+    UserEntity getUserByEmail(String email);
 }

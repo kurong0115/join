@@ -2,7 +2,7 @@ package com.matrix.join.controller;
 
 import com.matrix.join.common.EducationEnum;
 import com.matrix.join.dao.CompanyMapper;
-import com.matrix.join.po.CompanyEntity;
+import com.matrix.join.entity.CompanyEntity;
 import com.matrix.join.protocol.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 

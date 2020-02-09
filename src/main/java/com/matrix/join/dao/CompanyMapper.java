@@ -1,7 +1,7 @@
 package com.matrix.join.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.matrix.join.po.CompanyEntity;
+import com.matrix.join.entity.CompanyEntity;
 import org.springframework.stereotype.Repository;
 
 /**

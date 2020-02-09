@@ -2,7 +2,7 @@ package com.matrix.join.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.matrix.join.dao.CompanyMapper;
-import com.matrix.join.po.CompanyEntity;
+import com.matrix.join.entity.CompanyEntity;
 import com.matrix.join.service.CompanyService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

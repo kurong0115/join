@@ -1,6 +1,5 @@
-package com.matrix.join.po;
+package com.matrix.join.entity;
 
-import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -38,7 +37,7 @@ public class UserEntity implements Serializable {
     /**
      * 用户主键
      */
-    @TableId(type = IdType.AUTO)
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     /**
@@ -51,13 +50,14 @@ public class UserEntity implements Serializable {
      * 用户名
      */
     @NotBlank(message = "用户名不能为空")
+    @TableField(value = "user_name")
     private String userName;
 
     /**
      * 密码
      */
     @NotBlank(message = "密码不能为空")
-    @Size(min = 6, max = 32, message = "请输入6-20位的字符")
+    @Size(min = 6, max = 32, message = "请输入6-20位的密码")
     private String password;
 
     /**
@@ -86,4 +86,5 @@ public class UserEntity implements Serializable {
      */
     @JsonFormat(pattern = BasicConstant.DATA_PATTERN)
     private Timestamp gmtModified;
+
 }

@@ -19,7 +19,7 @@ import java.util.Map;
  * @Date 2020/2/1 15:16
  * @Version 1.0
  */
-@Component
+//@Component
 public class DefaultExceptionHandler implements HandlerExceptionResolver {
 
     private static Logger logger = LogManager.getLogger(DefaultExceptionHandler.class.getName());
@@ -29,8 +29,6 @@ public class DefaultExceptionHandler implements HandlerExceptionResolver {
         ModelAndView mv = new ModelAndView();
         FastJsonJsonView view = new FastJsonJsonView();
         Map<String, Object> object = new HashMap<>(16);
-        String code = null;
-        String message = null;
         if (ex.getMessage() != null) {
             object.put("code", 500);
             object.put("message", "failed");

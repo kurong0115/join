@@ -1,0 +1,38 @@
+package com.matrix.join.service;
+
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.matrix.join.entity.JobEntity;
+
+/**
+ * @ClassName JobService
+ * @Description TODO
+ * @Author Administrator
+ * @Date 2020/2/7 15:43
+ * @Version 1.0
+ */
+public interface JobService extends IService<JobEntity> {
+
+    /**
+     * 创建job
+     * @param jobEntity
+     * @return
+     */
+    JobEntity saveJob(JobEntity jobEntity);
+
+    /**
+     * 分页条件查询职位信息
+     * @param name
+     * @param jobCategory
+     * @param city
+     * @param salary
+     * @param workExperience
+     * @param education
+     * @param gender
+     * @param jobEntityPage
+     * @return
+     */
+    IPage<JobEntity> listJob(String name, byte jobCategory, String city, byte salary, byte workExperience, byte education, byte gender, Page<JobEntity> jobEntityPage);
+
+}

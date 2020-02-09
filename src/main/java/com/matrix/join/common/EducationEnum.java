@@ -14,6 +14,11 @@ import org.springframework.boot.configurationprocessor.json.JSONObject;
 public enum EducationEnum {
 
     /**
+     *
+     */
+    EDUCATION(0, "不限"),
+
+    /**
      * 初中及以下
      */
     EDUCATION_A(1, "初中及以下"),
@@ -74,6 +79,9 @@ public enum EducationEnum {
      * @return
      */
     public static String education(Integer code) {
+        if (null == code) {
+            return null;
+        }
         EducationEnum[] enums = EducationEnum.values();
         for (EducationEnum educationEnum: enums) {
             if (educationEnum.code.equals(code)) {

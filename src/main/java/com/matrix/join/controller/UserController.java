@@ -1,16 +1,18 @@
 package com.matrix.join.controller;
 
 import com.matrix.join.dto.UserDTO;
-import com.matrix.join.po.UserEntity;
+import com.matrix.join.entity.UserEntity;
 import com.matrix.join.protocol.ApiResponse;
 import com.matrix.join.protocol.JoinBizException;
 import com.matrix.join.service.UserService;
 import com.matrix.join.util.BindResultUtil;
+import com.matrix.join.util.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.math.BigInteger;
 import java.util.Objects;
 
 /**
@@ -28,17 +30,14 @@ public class UserController {
     UserService userService;
 
     @PostMapping(value = "/login")
-    public ApiResponse<UserEntity> login(@RequestParam(value = "email", required = true) String email,
-                                         @RequestParam(value = "password", required = true) String password) {
+    public ApiResponse<String> login(@RequestParam(value = "email", required = true) String email,
+                                     @RequestParam(value = "password", required = true) String password) {
         UserEntity userEntity = userService.login(email, password);
-        return new ApiResponse<UserEntity>().builder().code(200).message("ok").data(userEntity).build();
+        return new ApiResponse<String>().builder().code(200).message("ok").data(JwtUtils.getToken(userEntity)).build();
     }
 
     @GetMapping(value = "/get")
-    public ApiResponse<UserEntity> get(@RequestParam(value = "userId", required = false) String userId) throws JoinBizException {
-        if (Objects.isNull(userId)) {
-            throw new JoinBizException("123456");
-        }
+    public ApiResponse<UserEntity> get(@RequestParam(value = "userId", required = true) BigInteger userId) {
         UserEntity userEntity = userService.getUserByUserId(userId);
         return new ApiResponse<UserEntity>().builder().code(200).message("ok").data(userEntity).build();
     }
@@ -49,7 +48,7 @@ public class UserController {
         if (!Objects.isNull(errorMessage)) {
             throw new JoinBizException(errorMessage);
         }
-        UserEntity userEntity = userService.saveUser(userDTO.getUserEntity());
-        return null;
+        UserEntity userEntity = userService.saveUser(userDTO.getUserEntity(), userDTO.getVerification());
+        return new ApiResponse<UserEntity>().builder().code(200).message("ok").data(userEntity).build();
     }
 }

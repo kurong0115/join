@@ -8,6 +8,12 @@ package com.matrix.join.common;
  * @Version 1.0
  */
 public enum WorkExperienceEnum {
+
+    /**
+     *
+     */
+    WORK_EXPERIENCE_ENUM_Z(0, "不限"),
+
     /**
      * 在校生
      */

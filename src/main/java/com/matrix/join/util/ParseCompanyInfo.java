@@ -1,6 +1,6 @@
 package com.matrix.join.util;
 
-import com.matrix.join.po.CompanyEntity;
+import com.matrix.join.entity.CompanyEntity;
 import org.apache.http.*;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpRequestBase;

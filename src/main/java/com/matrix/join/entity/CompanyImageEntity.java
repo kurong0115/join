@@ -1,4 +1,4 @@
-package com.matrix.join.po;
+package com.matrix.join.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.matrix.join.constant.BasicConstant;
@@ -11,26 +11,20 @@ import java.math.BigInteger;
 import java.sql.Timestamp;
 
 /**
- * @ClassName CompanyDetail
- * @Description 公司工商信息
+ * @ClassName CompanyImage
+ * @Description 公司图片
  * @Author Administrator
- * @Date 2019/11/29 18:56
+ * @Date 2019/11/29 18:54
  * @Version 1.0
  */
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class CompanyDetailEntity implements Serializable {
+@NoArgsConstructor
+public class CompanyImageEntity implements Serializable {
+
 	private Integer id;
 	private BigInteger companyNo;
-	private String corporator;
-	private String registeredFund;
-	private String createTime;
-	private String type;
-	private String status;
-	private String registeredAddress;
-	private String uniformCreditCode;
-	private String scope;
+	private String url;
 
 	/**
 	 * 创建时间

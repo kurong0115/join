@@ -1,8 +1,7 @@
 package com.matrix.join.dto;
 
-import com.matrix.join.entity.UserEntity;
+import com.matrix.join.entity.JobCategoryEntity;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
@@ -11,27 +10,20 @@ import javax.validation.Valid;
 import java.io.Serializable;
 
 /**
- * @ClassName UserDTO
+ * @ClassName JobCategoryDTO
  * @Description TODO
  * @Author Administrator
- * @Date 2020/2/1 15:41
+ * @Date 2020/2/5 14:01
  * @Version 1.0
  */
 @Data
-@Builder
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Accessors(chain = true)
-public class UserDTO implements Serializable {
+public class JobCategoryDTO implements Serializable {
 
-    private static final long serialVersionUID = 5665403300058594240L;
+    private static final long serialVersionUID = 8357474926934337825L;
 
     @Valid
-    private UserEntity userEntity;
-
-    /**
-     * 验证码
-     */
-    String verification;
-
+    private JobCategoryEntity jobCategoryEntity;
 }

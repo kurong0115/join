@@ -1,4 +1,4 @@
-package com.matrix.join.po;
+package com.matrix.join.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.matrix.join.constant.BasicConstant;

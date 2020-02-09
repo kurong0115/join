@@ -6,8 +6,10 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.matrix.join.annotation.PassToken;
 import com.matrix.join.annotation.UserLogin;
-import com.matrix.join.po.UserEntity;
+import com.matrix.join.entity.UserEntity;
+import com.matrix.join.protocol.JoinBizException;
 import com.matrix.join.service.UserService;
+import com.matrix.join.util.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
@@ -16,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.math.BigInteger;
 
 /**
  * @ClassName LoginInterceptor
@@ -49,18 +52,18 @@ public class LoginInterceptor implements HandlerInterceptor {
                 return true;
             }
             if (token == null){
-                throw new RuntimeException("token失效，请重新登录");
+                throw new JoinBizException("token失效，请重新登录");
             }
             String id = JWT.decode(token).getAudience().get(0);
-            UserEntity user = userService.getUserByUserId(id);
+            UserEntity user = userService.getUserByUserId(BigInteger.valueOf(Long.decode(id)));
             if (user == null){
-                throw new RuntimeException("用户不存在");
+                throw new JoinBizException("用户不存在");
             }
-            JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(user.getPassword())).build();
+            JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(JwtUtils.SECRET)).build();
             try {
                 jwtVerifier.verify(token);
             } catch (JWTVerificationException e) {
-                throw new RuntimeException("token格式不对");
+                throw new JoinBizException("token不对");
             }
         }
         return true;

@@ -1,9 +1,9 @@
 package com.matrix.join.dto;
 
-import com.matrix.join.po.CompanyEntity;
-import com.matrix.join.po.CompanyDetailEntity;
-import com.matrix.join.po.CompanyImageEntity;
-import com.matrix.join.po.JobEntity;
+import com.matrix.join.entity.CompanyEntity;
+import com.matrix.join.entity.CompanyDetailEntity;
+import com.matrix.join.entity.CompanyImageEntity;
+import com.matrix.join.entity.JobEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
