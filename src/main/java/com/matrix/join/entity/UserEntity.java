@@ -76,6 +76,16 @@ public class UserEntity implements Serializable {
     private String phone;
 
     /**
+     * 公司编号
+     */
+    private BigInteger companyNo;
+
+    /**
+     * 头像
+     */
+    private String icon;
+
+    /**
      * 创建时间
      */
     @JsonFormat(pattern = BasicConstant.DATA_PATTERN)

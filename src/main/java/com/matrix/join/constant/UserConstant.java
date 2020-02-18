@@ -1,6 +1,5 @@
 package com.matrix.join.constant;
 
-import org.omg.CORBA.PUBLIC_MEMBER;
 
 /**
  * @ClassName UserConstant

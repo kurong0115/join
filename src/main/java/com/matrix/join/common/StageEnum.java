@@ -10,6 +10,11 @@ package com.matrix.join.common;
 public enum StageEnum {
 
 	/**
+	 *
+	 */
+	STAGE(0, "不限"),
+
+	/**
 	 * 未融资
 	 */
 	STAGE_A(1, "未融资"),

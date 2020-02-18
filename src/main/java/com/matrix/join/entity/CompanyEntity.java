@@ -1,10 +1,12 @@
 package com.matrix.join.entity;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.matrix.join.constant.BasicConstant;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 import org.springframework.data.annotation.Id;
 
 import javax.persistence.Entity;
@@ -23,15 +25,17 @@ import java.sql.Timestamp;
  * @Version 1.0
  */
 @Data
-@Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@Accessors(chain = true)
+@TableName(value = "company")
 public class CompanyEntity implements Serializable {
 
 	private static final long serialVersionUID = -5442916341874138184L;
 
-	@Id
-    @javax.persistence.Id
+    /**
+     * 主键
+     */
 	private Integer id;
 
 	/**

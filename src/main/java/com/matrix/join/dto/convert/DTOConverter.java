@@ -58,9 +58,7 @@ public class DTOConverter {
      * @return
      */
     public static <T> T parse(JobDTO dto, Class<T> clazz) {
-        System.out.println(dto.getCreator());
         String userId = JWT.decode(dto.getCreator()).getAudience().get(0);
-        System.out.println(userId);
         if (clazz == JobEntity.class) {
             JobEntity jobEntity = JobEntity.builder()
                     .jobNo(dto.getJobNo())
@@ -79,6 +77,8 @@ public class DTOConverter {
                     .name(dto.getName())
                     .jobCategory(dto.getJobCategory())
                     .workExperience(WorkExperienceEnum.code(dto.getWorkExperience()).byteValue())
+                    .email(dto.getEmail())
+                    .address(dto.getAddress())
                     .build();
             return (T) jobEntity;
         }
@@ -111,6 +111,8 @@ public class DTOConverter {
                     .name(jobEntity.getName())
                     .jobCategory(jobEntity.getJobCategory())
                     .workExperience(WorkExperienceEnum.workExperience(jobEntity.getWorkExperience().intValue()))
+                    .email(jobEntity.getEmail())
+                    .address(jobEntity.getAddress())
                     .build();
             return (T) dto;
         }

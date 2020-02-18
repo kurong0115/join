@@ -107,6 +107,11 @@ public class JobEntity implements Serializable {
     private String introduce;
 
     /**
+     * 地址
+     */
+    private String address;
+
+    /**
      * 邮箱
      */
     private String email;

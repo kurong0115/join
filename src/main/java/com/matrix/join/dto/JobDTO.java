@@ -113,6 +113,12 @@ public class JobDTO implements Serializable {
     private String introduce;
 
     /**
+     * 办公地址
+     */
+    @NotBlank(message = "地址为必填项")
+    private String address;
+
+    /**
      * 邮箱
      */
     @Email
@@ -122,7 +128,7 @@ public class JobDTO implements Serializable {
     /**
      * 是否启用
      */
-    private Byte isDel;
+    private String isDel;
 
     /**
      * 创建时间
@@ -135,4 +141,5 @@ public class JobDTO implements Serializable {
      */
     @JsonFormat(pattern = BasicConstant.DATA_PATTERN)
     private Timestamp gmtModified;
+
 }

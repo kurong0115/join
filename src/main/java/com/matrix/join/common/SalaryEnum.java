@@ -11,47 +11,47 @@ public enum SalaryEnum {
     /**
      * 不限
      */
-    SALARY_A(1, "不限"),
+    SALARY_A(0, "不限"),
 
     /**
      * 3K以下
      */
-    SALARY_B(2, "3K以下"),
+    SALARY_B(1, "3K以下"),
 
     /**
      * 3-5K
      */
-    SALARY_C(3, "3-5K"),
+    SALARY_C(2, "3-5K"),
 
     /**
      * 5-10K
      */
-    SALARY_D(4, "5-10K"),
+    SALARY_D(3, "5-10K"),
 
     /**
      * 10-15K
      */
-    SALARY_E(5, "10-15K"),
+    SALARY_E(4, "10-15K"),
 
     /**
      * 15-20K
      */
-    SALARY_F(6, "15-20K"),
+    SALARY_F(5, "15-20K"),
 
     /**
      * 20-30K
      */
-    SALARY_G(7, "20-30K"),
+    SALARY_G(6, "20-30K"),
 
     /**
      * 30-50K
      */
-    SALARY_H(8, "30-50K"),
+    SALARY_H(7, "30-50K"),
 
     /**
      * 50K以上
      */
-    SALARY_I(9, "50K以上");
+    SALARY_I(8, "50K以上");
 
     /**
      * 编码

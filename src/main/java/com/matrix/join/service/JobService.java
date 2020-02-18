@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.matrix.join.entity.JobEntity;
 
+import java.math.BigInteger;
+
 /**
  * @ClassName JobService
  * @Description TODO
@@ -35,4 +37,25 @@ public interface JobService extends IService<JobEntity> {
      */
     IPage<JobEntity> listJob(String name, byte jobCategory, String city, byte salary, byte workExperience, byte education, byte gender, Page<JobEntity> jobEntityPage);
 
+    /**
+     * 删除职位信息
+     * @param jobNo
+     * @param userId
+     * @return
+     */
+    int removeJob(BigInteger jobNo, BigInteger userId);
+
+    /**
+     * 修改职位信息
+     * @param jobEntity
+     * @return
+     */
+    JobEntity updateJob(JobEntity jobEntity);
+
+    /**
+     * 根据职位编号获取职位信息
+     * @param jobNo
+     * @return
+     */
+    JobEntity getJob(BigInteger jobNo);
 }

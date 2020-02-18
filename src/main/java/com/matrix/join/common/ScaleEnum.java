@@ -8,6 +8,12 @@ package com.matrix.join.common;
  * @Version 1.0
  */
 public enum ScaleEnum {
+
+	/**
+	 *
+	 */
+	SCALE(0, "不限"),
+
 	/**
 	 * 第一阶层，0-20人
 	 */
