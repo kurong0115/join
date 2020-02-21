@@ -1,5 +1,7 @@
 package com.matrix.join.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.matrix.join.constant.BasicConstant;
@@ -36,6 +38,7 @@ public class CompanyEntity implements Serializable {
     /**
      * 主键
      */
+    @TableId(type = IdType.AUTO)
 	private Integer id;
 
 	/**
