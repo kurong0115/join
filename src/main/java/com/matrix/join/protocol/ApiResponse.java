@@ -32,6 +32,10 @@ public class ApiResponse<T> implements Serializable {
 		return new ApiResponseBuilder();
 	}
 
+	public static <T> ApiResponse<T> responseData(T t) {
+		return new ApiResponse<T>().builder().code(200).message("ok").data(t).build();
+	}
+
 	public class ApiResponseBuilder {
 
 		private Integer code;

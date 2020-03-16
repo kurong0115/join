@@ -3,26 +3,21 @@ package com.matrix.join.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.matrix.join.annotation.UserLogin;
-import com.matrix.join.dto.CompanyDTO;
 import com.matrix.join.dto.CompanyJobDTO;
 import com.matrix.join.dto.JobDTO;
 import com.matrix.join.dto.convert.DTOConverter;
 import com.matrix.join.entity.CompanyEntity;
 import com.matrix.join.entity.JobEntity;
 import com.matrix.join.protocol.ApiResponse;
-import com.matrix.join.protocol.JoinBizException;
 import com.matrix.join.protocol.Pagination;
 import com.matrix.join.service.CompanyService;
 import com.matrix.join.service.JobService;
-import com.matrix.join.util.BindResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.math.BigInteger;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -44,11 +39,7 @@ public class JobController {
 
     @UserLogin
     @PostMapping("/saveJob")
-    public ApiResponse<JobDTO> saveJob(@RequestBody @Valid JobDTO dto, BindingResult bindingResult) {
-        String errorMessage = BindResultUtil.resolveError(bindingResult);
-        if (!Objects.isNull(errorMessage)) {
-            throw new JoinBizException(errorMessage);
-        }
+    public ApiResponse<JobDTO> saveJob(@RequestBody @Valid JobDTO dto) {
         JobEntity jobEntity = jobService.saveJob(DTOConverter.parse(dto, JobEntity.class));
         return new ApiResponse<JobDTO>().builder()
                 .code(200).message("ok").data(DTOConverter.convert(jobEntity, JobDTO.class)).build();
@@ -83,11 +74,7 @@ public class JobController {
 
     @UserLogin
     @PutMapping("/updateJob")
-    public ApiResponse<JobDTO> updateJob(@RequestBody @Valid JobDTO dto, BindingResult bindingResult) {
-        String errorMessage = BindResultUtil.resolveError(bindingResult);
-        if (!Objects.isNull(errorMessage)) {
-            throw new JoinBizException(errorMessage);
-        }
+    public ApiResponse<JobDTO> updateJob(@RequestBody @Valid JobDTO dto) {
         JobEntity jobEntity = jobService.updateJob(DTOConverter.parse(dto, JobEntity.class));
         return new ApiResponse<JobDTO>().builder().code(200).message("ok").data(DTOConverter.convert(jobEntity, JobDTO.class)).build();
     }
@@ -100,4 +87,6 @@ public class JobController {
                 .data(CompanyJobDTO.builder().companyEntity(companyEntity)
                 .jobDTO(DTOConverter.convert(jobEntity, JobDTO.class)).build()).build();
     }
+
+
 }

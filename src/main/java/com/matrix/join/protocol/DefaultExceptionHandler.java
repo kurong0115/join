@@ -19,7 +19,7 @@ import java.util.Map;
  * @Date 2020/2/1 15:16
  * @Version 1.0
  */
-@Component
+//@Component
 public class DefaultExceptionHandler implements HandlerExceptionResolver {
 
     private static Logger logger = LogManager.getLogger(DefaultExceptionHandler.class.getName());

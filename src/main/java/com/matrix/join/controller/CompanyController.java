@@ -1,15 +1,27 @@
 package com.matrix.join.controller;
 
+import com.auth0.jwt.JWT;
+import com.matrix.join.annotation.UserLogin;
 import com.matrix.join.common.EducationEnum;
+import com.matrix.join.constant.BasicConstant;
 import com.matrix.join.dao.CompanyMapper;
+import com.matrix.join.dto.CompanyDTO;
 import com.matrix.join.entity.CompanyEntity;
 import com.matrix.join.protocol.ApiResponse;
+import com.matrix.join.protocol.JoinBizException;
+import com.matrix.join.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.File;
+import java.io.IOException;
+import java.math.BigInteger;
 
 /**
  * @ClassName CompanyController
@@ -23,19 +35,25 @@ import javax.validation.Valid;
 public class CompanyController {
 
     @Autowired
-    CompanyMapper companyMapper;
+    CompanyService companyService;
 
-    @PostMapping("/listAll")
-    public Object listAll(@RequestBody @Valid CompanyEntity company, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return bindingResult.getAllErrors();
-        }
-        return companyMapper.selectList(null);
+    @UserLogin
+    @PostMapping("/saveCompany")
+    public ApiResponse<CompanyDTO> saveCompany(@RequestBody @Valid CompanyDTO companyDTO) {
+        CompanyEntity companyEntity = companyService.saveCompany(companyDTO.getCompany());
+        return ApiResponse.responseData(new CompanyDTO().setCompany(companyEntity));
     }
 
-    @GetMapping("/response")
-    public ApiResponse<EducationEnum[]> response() {
-        return new ApiResponse<EducationEnum[]>().builder().code(200).message("ok").data(EducationEnum.values()).pagination(null).build();
+    @GetMapping("/getCompanyInfo")
+    public ApiResponse<CompanyDTO> getCompanyInfo(@RequestParam(name = "companyNo", required = true) BigInteger companyNo) {
+        CompanyEntity companyEntity = companyService.getCompanyByNo(companyNo);
+        return ApiResponse.responseData(new CompanyDTO().setCompany(companyEntity));
+    }
+
+    @GetMapping("/getCompanyByUniformCreditCode")
+    public ApiResponse<CompanyDTO> getCompanyByUniformCreditCode(@RequestParam(name = "uniformCreditCode", required = true) String uniformCreditCode) {
+        CompanyEntity companyEntity = companyService.getCompanyByUniformCreditCode(uniformCreditCode);
+        return ApiResponse.responseData(new CompanyDTO().setCompany(companyEntity));
     }
 
 }

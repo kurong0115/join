@@ -43,4 +43,19 @@ public interface UserService extends IService<UserEntity> {
      * @return
      */
     UserEntity getUserByEmail(String email);
+
+    /**
+     * 修改用户信息
+     * @param userEntity
+     * @return
+     */
+    UserEntity updateUserInfo(UserEntity userEntity);
+
+    /**
+     * 绑定用户与企业
+     * @param userId
+     * @param companyNo
+     * @return
+     */
+    int bindCompany(BigInteger userId, BigInteger companyNo);
 }

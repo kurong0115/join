@@ -12,6 +12,9 @@ import com.matrix.join.service.JobService;
 import com.matrix.join.service.UserService;
 import com.matrix.join.util.PrimaryKeyGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -69,7 +72,7 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, JobEntity> implements
             wrapper.eq("work_experience", workExperience);
         }
         if (education != 0) {
-            wrapper.eq("education", education);
+            wrapper.ge("education", education);
         }
         if (gender != 0) {
             wrapper.eq("gender", gender);
@@ -78,6 +81,7 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, JobEntity> implements
     }
 
     @Override
+    @CacheEvict(value = "job", key = "#jobNo")
     public int removeJob(BigInteger jobNo, BigInteger userId) {
         if (Objects.isNull(jobNo) || Objects.isNull(userId)) {
             throw new JoinBizException(("请输入完整信息"));
@@ -89,6 +93,7 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, JobEntity> implements
     }
 
     @Override
+    @CachePut(value = "job", key = "#result.jobNo")
     public JobEntity updateJob(JobEntity jobEntity) {
         if (Objects.isNull(jobEntity.getJobNo()) || Objects.isNull(jobEntity.getCreator())) {
             throw new JoinBizException(("请输入完整信息"));
@@ -101,6 +106,7 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, JobEntity> implements
     }
 
     @Override
+    @Cacheable(value = "job", key = "#jobNo")
     public JobEntity getJob(BigInteger jobNo) {
         if (Objects.isNull(jobNo)) {
             throw new JoinBizException(("职位编号不能为空"));

@@ -21,7 +21,7 @@ public enum EducationEnum {
     /**
      * 初中及以下
      */
-    EDUCATION_A(1, "初中及以下"),
+    EDUCATION_A(1, "初中"),
 
     /**
      * 中专/中技

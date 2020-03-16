@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import javax.validation.Valid;
 import java.io.Serializable;
 import java.util.List;
 
@@ -29,8 +30,12 @@ public class CompanyDTO implements Serializable {
 
     private static final long serialVersionUID = 5928393934189248469L;
 
+    @Valid
     private CompanyEntity company;
+
 	private CompanyDetailEntity companyDetail;
+
 	private List<CompanyImageEntity> list;
+
 	private List<JobEntity> jobList;
 }

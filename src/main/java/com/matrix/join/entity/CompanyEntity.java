@@ -9,11 +9,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
-import org.springframework.data.annotation.Id;
+import org.hibernate.validator.constraints.Length;
 
-import javax.persistence.Entity;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigInteger;
@@ -50,24 +48,28 @@ public class CompanyEntity implements Serializable {
      * 公司名称
      */
     @NotBlank(message = "请输入公司名称")
+    @Length(max = 64, message = "公司名称长度超过限制")
 	private String name;
 
     /**
      * 公司介绍
      */
-    @NotBlank(message = "请输入公司介绍")
+    @NotBlank(message = "请输入公司简介")
+    @Length(max = 2048, message = "公司介绍长度超过限制")
 	private String introduce;
 
     /**
      * 公司所在城市
      */
     @NotBlank(message = "请输入城市")
+    @Length(max = 16, message = "城市长度超过限制")
 	private String city;
 
     /**
      * 公司所属行业
      */
     @NotBlank(message = "请输入行业")
+    @Length(max = 16, message = "行业长度超过限制")
 	private String industry;
 
 	/**
@@ -85,8 +87,64 @@ public class CompanyEntity implements Serializable {
     /**
      * 图标
      */
-    @NotEmpty(message = "请输入图标")
+    @NotBlank(message = "请输入图标")
     private String icon;
+
+    /**
+     * 法人代表
+     */
+    @NotBlank(message = "法人代表为必填项")
+    @Length(max = 16, message = "法人代表长度超过限制")
+    private String corporator;
+
+    /**
+     * 注册资金
+     */
+    @NotBlank(message = "注册资金为必填项")
+    @Length(max = 16, message = "注册资金长度超过限制")
+    private String registeredFund;
+
+    /**
+     * 创建时间
+     */
+    @NotBlank(message = "创建时间为必填项")
+    @Length(max = 16, message = "创建时间长度超过限制")
+    private String createTime;
+
+    /**
+     * 企业类型
+     */
+    @NotBlank(message = "企业类型为必填项")
+    @Length(max = 16, message = "企业类型长度超过限制")
+    private String type;
+
+    /**
+     * 企业状态
+     */
+    @NotBlank(message = "企业状态为必填项")
+    @Length(max = 16, message = "企业状态长度超过限制")
+    private String status;
+
+    /**
+     * 注册地址
+     */
+    @NotBlank(message = "注册地址为必填项")
+    @Length(max = 128, message = "注册地址长度超过限制")
+    private String registeredAddress;
+
+    /**
+     * 社会统一信用编码
+     */
+    @NotBlank(message = "社会统一信用编码为必填项")
+    @Length(min = 16, max = 16, message = "社会统一信用编码长度非法")
+    private String uniformCreditCode;
+
+    /**
+     * 经营范围
+     */
+    @NotBlank(message = "经营范围为必填项")
+    @Length(max = 2555, message = "经营范围长度超过限制")
+    private String scope;
 
     /**
      * 创建时间

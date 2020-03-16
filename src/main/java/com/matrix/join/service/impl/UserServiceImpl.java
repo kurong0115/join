@@ -2,6 +2,7 @@ package com.matrix.join.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.matrix.join.constant.BasicConstant;
 import com.matrix.join.constant.MailConstant;
 import com.matrix.join.constant.UserConstant;
 import com.matrix.join.dao.UserMapper;
@@ -77,5 +78,29 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
         wrapper.eq(UserConstant.EMAIL, email);
         UserEntity userEntity = userMapper.selectOne(wrapper);
         return userEntity;
+    }
+
+    @Override
+    public UserEntity updateUserInfo(UserEntity userEntity) {
+        Objects.requireNonNull(userEntity.getUserId(), UserConstant.USER_ID_IS_NOT_NULL);
+        String password = userEntity.getPassword();
+        if (password.length() != BasicConstant.MAX_PASSWORD_LENGTH) {
+            userEntity.setPassword(SecretUtils.getMD5String(password));
+        }
+        QueryWrapper<UserEntity> wrapper = new QueryWrapper<>();
+        wrapper.eq(UserConstant.USER_ID, userEntity.getUserId());
+        userMapper.update(userEntity, wrapper);
+        return userEntity;
+    }
+
+    @Override
+    public int bindCompany(BigInteger userId, BigInteger companyNo) {
+        Objects.requireNonNull(userId, UserConstant.USER_ID_IS_NOT_NULL);
+        Objects.requireNonNull(companyNo, "公司编号不能为空");
+        UserEntity user = new UserEntity();
+        user.setCompanyNo(companyNo);
+        QueryWrapper<UserEntity> wrapper = new QueryWrapper<>();
+        wrapper.eq(UserConstant.USER_ID, userId);
+        return userMapper.update(user, wrapper);
     }
 }

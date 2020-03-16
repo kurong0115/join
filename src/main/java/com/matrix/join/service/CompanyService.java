@@ -21,4 +21,18 @@ public interface CompanyService extends IService<CompanyEntity> {
      */
     CompanyEntity getCompanyByNo(BigInteger companyNo);
 
+    /**
+     * 保存公司基本信息
+     * @param companyEntity
+     * @return
+     */
+    CompanyEntity saveCompany(CompanyEntity companyEntity);
+
+    /**
+     * 根据社会信用编码获取公司信息
+     * @param uniformCreditCode
+     * @return
+     */
+    CompanyEntity getCompanyByUniformCreditCode(String uniformCreditCode);
+
 }
