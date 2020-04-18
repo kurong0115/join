@@ -70,6 +70,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(Exception.class)
     public ApiResponse<String> exception(Exception e) {
-        return new ApiResponse<String>().builder().code(500).message("failed").data("服务器异常").build();
+        e.printStackTrace();
+        return new ApiResponse<String>().builder().code(500).message("failed").data("服务器繁忙").build();
     }
 }

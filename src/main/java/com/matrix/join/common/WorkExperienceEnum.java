@@ -1,5 +1,10 @@
 package com.matrix.join.common;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
 /**
  * @ClassName WorkExperienceEnum
  * @Description 工作经验枚举类
@@ -76,13 +81,14 @@ public enum WorkExperienceEnum {
      * @return
      */
     public static Integer code(String workExperience) {
-        WorkExperienceEnum[] enums = WorkExperienceEnum.values();
-        for (WorkExperienceEnum workExperienceEnum: enums) {
-            if (workExperienceEnum.workExperience.equals(workExperience)) {
-                return workExperienceEnum.code;
-            }
+        if (!Objects.isNull(workExperience)) {
+            WorkExperienceEnum[] enums = WorkExperienceEnum.values();
+            Integer code = null;
+            List<Integer> list = Arrays.stream(enums).filter(x -> workExperience.equals(x.workExperience)).map(x -> x.code).collect(Collectors.toList());
+            return code = list.isEmpty() ? null : list.get(0);
+        } else {
+            return null;
         }
-        return null;
     }
 
     /**
@@ -91,12 +97,17 @@ public enum WorkExperienceEnum {
      * @return
      */
     public static String workExperience(Integer code) {
-        WorkExperienceEnum[] enums = WorkExperienceEnum.values();
-        for (WorkExperienceEnum workExperienceEnum: enums) {
-            if (workExperienceEnum.code.equals(code)) {
-                return workExperienceEnum.workExperience;
-            }
+        if (!Objects.isNull(code)) {
+            WorkExperienceEnum[] enums = WorkExperienceEnum.values();
+            String workExperience = null;
+            List<String> list = Arrays.stream(enums).filter(x -> code.equals(x.code)).map(x -> x.workExperience).collect(Collectors.toList());
+            return workExperience = list.isEmpty() ? null : list.get(0);
+        } else {
+            return null;
         }
-        return null;
+    }
+
+    public static void main(String[] args) {
+        Arrays.stream(WorkExperienceEnum.values()).forEach(x -> System.out.print(x.code + "为" + x.workExperience + "，"));
     }
 }

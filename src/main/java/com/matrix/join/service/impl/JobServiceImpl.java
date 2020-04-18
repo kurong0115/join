@@ -1,13 +1,17 @@
 package com.matrix.join.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.matrix.join.constant.BasicConstant;
 import com.matrix.join.dao.JobMapper;
+import com.matrix.join.entity.CompanyEntity;
 import com.matrix.join.entity.JobEntity;
 import com.matrix.join.entity.UserEntity;
 import com.matrix.join.protocol.JoinBizException;
+import com.matrix.join.service.CompanyService;
 import com.matrix.join.service.JobService;
 import com.matrix.join.service.UserService;
 import com.matrix.join.util.PrimaryKeyGenerator;
@@ -16,6 +20,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.math.BigInteger;
@@ -29,6 +34,7 @@ import java.util.Objects;
  * @Version 1.0
  */
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class JobServiceImpl extends ServiceImpl<JobMapper, JobEntity> implements JobService {
 
     @Autowired
@@ -36,6 +42,9 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, JobEntity> implements
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    CompanyService companyService;
 
     @Override
     public JobEntity saveJob(JobEntity jobEntity) {
@@ -54,7 +63,7 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, JobEntity> implements
     }
 
     @Override
-    public IPage<JobEntity> listJob(String name, byte jobCategory, String city, byte salary, byte workExperience, byte education, byte gender, Page<JobEntity> jobEntityPage) {
+    public IPage<JobEntity> listJob(String name, byte jobCategory, String city, byte salary, byte workExperience, byte education, byte gender, byte jobType, BigInteger creator, Page<JobEntity> jobEntityPage) {
         QueryWrapper<JobEntity> wrapper = new QueryWrapper<>();
         if (!StringUtils.isEmpty(name)) {
             wrapper.likeRight("name", name);
@@ -77,7 +86,18 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, JobEntity> implements
         if (gender != 0) {
             wrapper.eq("gender", gender);
         }
-        return jobMapper.selectPage(jobEntityPage, wrapper);
+        if (jobType != 0) {
+            wrapper.eq("job_type", jobType);
+        }
+        if (Objects.nonNull(creator)) {
+            wrapper.eq("creator", creator);
+        }
+        wrapper.eq("is_del", BasicConstant.ABLE);
+        Page<JobEntity> page = jobMapper.selectPage(jobEntityPage, wrapper);
+        page.getRecords().stream().forEach(x -> {
+            x.setIcon(companyService.getCompanyByNo(x.getCompanyNo()).getIcon());
+        });
+        return page;
     }
 
     @Override
@@ -114,5 +134,20 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, JobEntity> implements
         QueryWrapper<JobEntity> wrapper = new QueryWrapper<>();
         wrapper.eq("job_no", jobNo);
         return jobMapper.selectOne(wrapper);
+    }
+
+    @CacheEvict(value = "job", key = "#jobNo")
+    @Override
+    public void disableJob(BigInteger jobNo, BigInteger creator) {
+        Objects.requireNonNull(jobNo, "职位编号不能为空");
+        Objects.requireNonNull(creator, "操作人不能为空");
+        UpdateWrapper<JobEntity> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.eq("job_no", jobNo);
+        updateWrapper.eq("creator", creator);
+        JobEntity jobEntity = new JobEntity();
+        jobEntity.setJobNo(jobNo);
+        jobEntity.setCreator(creator);
+        jobEntity.setIsDel(BasicConstant.DISABLED);
+        jobMapper.update(jobEntity, updateWrapper);
     }
 }

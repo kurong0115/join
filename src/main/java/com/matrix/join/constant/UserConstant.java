@@ -20,4 +20,6 @@ public class UserConstant {
 
     public static final String USER_ID_IS_NOT_NULL = "用户编号不能为空";
 
+    public static final String DEFAULT_PASSWORD = "123456";
+
 }

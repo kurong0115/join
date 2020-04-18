@@ -31,4 +31,33 @@ public class BasicConstant {
      */
     public static final BigInteger DEFAULT_COMPANY_NO = new BigInteger("123");
 
+    /**
+     * GET方法
+     */
+    public static final String GET = "get";
+
+    /**
+     * SET方法
+     */
+    public static final String SET = "set";
+
+    /**
+     * get/set方法 参数名开始的索引
+     */
+    public static final int PARAMETER_START_INDEX = 3;
+
+    /**
+     * 附件简历最大数量
+     */
+    public static final int MAX_SIZE_ATTACH = 3;
+
+    /**
+     * 启用
+     */
+    public static final int ABLE = 0;
+
+    /**
+     * 停用
+     */
+    public static final byte DISABLED = 1;
 }

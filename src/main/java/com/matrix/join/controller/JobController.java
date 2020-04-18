@@ -65,9 +65,11 @@ public class JobController {
                                              @RequestParam(value = "workExperience", required = false, defaultValue = "0") byte workExperience,
                                              @RequestParam(value = "education", required = false, defaultValue = "0") byte education,
                                              @RequestParam(value = "jobCategory", required = false, defaultValue = "0") byte jobCategory,
-                                             @RequestParam(value = "gender", required = false, defaultValue = "0") byte gender) {
+                                             @RequestParam(value = "gender", required = false, defaultValue = "0") byte gender,
+                                             @RequestParam(value = "jobType", required = false, defaultValue = "0") byte jobType,
+                                             @RequestParam(value = "creator", required = false) BigInteger creator){
         IPage<JobEntity> jobList = jobService.listJob(name, jobCategory, city,
-                salary, workExperience, education, gender, new Page<JobEntity>(pageNum, pageSize));
+                salary, workExperience, education, gender,jobType, creator, new Page<JobEntity>(pageNum, pageSize));
         return new ApiResponse<List<JobDTO>>().builder().code(200).message("ok").data(jobList.getRecords().stream()
                 .map(x -> DTOConverter.convert(x, JobDTO.class)).collect(Collectors.toList())).pagination(Pagination.convertPage(jobList)).build();
     }
@@ -88,5 +90,11 @@ public class JobController {
                 .jobDTO(DTOConverter.convert(jobEntity, JobDTO.class)).build()).build();
     }
 
+    @PostMapping(value = "/disableJob")
+    public ApiResponse<Object> disableJob(@RequestParam(name = "jobNo") BigInteger jobNo,
+                                          @RequestParam(name = "creator") BigInteger creator){
+        jobService.disableJob(jobNo, creator);
+        return ApiResponse.responseData(null);
+    }
 
 }

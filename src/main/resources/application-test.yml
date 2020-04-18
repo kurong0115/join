@@ -1,0 +1,108 @@
+spring:
+  mail:
+    host: smtp.qq.com
+    username: 3468793275@qq.com
+    password: fylicotvotqndcbf
+    default-encoding: utf-8
+  main:
+    allow-bean-definition-overriding: true
+  profiles: test
+  servlet:
+    multipart:
+      max-file-size: 30MB
+      max-request-size: 10MB
+  swagger:
+    security:
+      # 是否启用 swagger 登录验证
+      filter-plugin: false
+      username: admin
+      password: 123456
+  redis:
+    host: r-wz96eeac5d24f3b4pd.redis.rds.aliyuncs.com
+    port: 6379
+    database: 0
+    timeout: 10000ms
+    password: 147369vbnmP
+    lettuce:
+      pool:
+        # 连接池最大连接数（使用负值表示没有限制） 默认 8
+        max-active: 8
+        # 连接池最大阻塞等待时间（使用负值表示没有限制） 默认 -1
+        max-wait: -1ms
+        # 连接池中的最大空闲连接 默认 8
+        max-idle: 8
+        # 连接池中的最小空闲连接 默认 0
+        min-idle: 0
+#    jedis:
+#      pool:
+#        #最大连接个数
+#        max-active: 10
+#        #等待时间
+#        max-wait: 6000ms
+#        #最大空闲
+#        max-idle: 8
+#        #初始化最小
+#        min-idle: 5
+#        #操作第几个库
+  datasource:
+    url: jdbc:mysql://localhost:3306/join?useUnicode=true&autoReconnect=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Hongkong&allowMultiQueries=true
+    username: root
+    password: system
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      initial-size: 5
+      max-active: 100
+      min-idle: 5
+      max-wait: 60000
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      validation-query: SELECT 1 FROM DUAL
+      validation-query-timeout: 60000
+      test-on-borrow: false
+      test-on-return: false
+      test-while-idle: true
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 100000
+      web-stat-filter.enabled: true
+      web-stat-filter.url-pattern: /*
+      web-stat-filter.exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
+      # StatViewServlet配置，说明请参考Druid Wiki，配置_StatViewServlet配置
+      stat-view-servlet.enabled:  true
+      stat-view-servlet.url-pattern: /druid/*
+      stat-view-servlet.reset-enable: false
+      stat-view-servlet.login-username: admin
+      stat-view-servlet.login-password: admin
+      stat-view-servlet.allow: 127.0.0.1
+      ###监控配置 end###
+
+      # 配置StatFilter
+      filter.stat.db-type: mysql
+      filter.stat.log-slow-sql: true
+      filter.stat.slow-sql-millis: 5000
+
+      # 配置WallFilter
+      filter.wall.enabled: true
+      filter.wall.db-type: mysql
+      filter.wall.config.delete-allow: false
+      filter.wall.config.drop-table-allow: false
+
+server:
+  port: 8888
+mybatis:
+  config-location: classpath:mybatis/configuration.xml
+logging:
+  level:
+    com.matrix.join.dao : debug
+
+mybatis-plus:
+  #mapper-locations: classpath:com/matrix/join/dao/*Mapper.xml
+  #实体扫描，多个package用逗号或者分号分隔
+  typeAliasesPackage: com.matrix.join.entity
+  typeEnumsPackage: com.matrix.join.common
+
+file:
+  head:
+    path: D:\Java\Environment\apache-tomcat-8.5.35\webapps\jobya\images\head\
+    file-path: images\head\
+    project-path: D:\Java\Environment\apache-tomcat-8.5.35\webapps\jobya\

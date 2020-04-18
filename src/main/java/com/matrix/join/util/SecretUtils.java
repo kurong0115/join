@@ -1,8 +1,11 @@
 package com.matrix.join.util;
 
+import com.matrix.join.constant.UserConstant;
+
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.UUID;
 
 /**
  * @ClassName SecretUtils
@@ -39,8 +42,12 @@ public class SecretUtils {
         return String.valueOf((int) ((Math.random() * 9 + 1) * 100000));
     }
 
+    public static String getUUID() {
+        return UUID.randomUUID().toString().replaceAll("-", "");
+    }
+
     public static void main(String[] args) {
-        System.out.println(getMD5String("123"));
-        System.out.println(generateCode());
+        System.out.println(getUUID());
+        System.out.println(getMD5String(UserConstant.DEFAULT_PASSWORD));
     }
 }

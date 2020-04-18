@@ -7,12 +7,22 @@ spring:
   main:
     allow-bean-definition-overriding: true
   profiles: dev
+  servlet:
+    multipart:
+      max-file-size: 30MB
+      max-request-size: 10MB
+  swagger:
+    security:
+      # 是否启用 swagger 登录验证
+      filter-plugin: false
+      username: admin
+      password: 123456
   redis:
-    host: 120.24.48.43
+    host: r-wz96eeac5d24f3b4pd.redis.rds.aliyuncs.com
     port: 6379
-    database: 0
+    database: 1
     timeout: 10000ms
-    password:
+    password: 147369vbnmP
     lettuce:
       pool:
         # 连接池最大连接数（使用负值表示没有限制） 默认 8
@@ -65,6 +75,7 @@ spring:
       filter.wall.db-type: mysql
       filter.wall.config.delete-allow: false
       filter.wall.config.drop-table-allow: false
+
 server:
   port: 8888
 mybatis:
@@ -74,11 +85,13 @@ logging:
     com.matrix.join.dao : debug
 
 mybatis-plus:
-  mapper-locations: classpath:/mapper/*Mapper.xml
+  #mapper-locations: classpath:com/matrix/join/dao/*Mapper.xml
   #实体扫描，多个package用逗号或者分号分隔
-  typeAliasesPackage: com.matrix.join.po
+  typeAliasesPackage: com.matrix.join.entity
   typeEnumsPackage: com.matrix.join.common
 
 file:
   head:
     path: D:\Java\Environment\apache-tomcat-8.5.35\webapps\jobya\images\head\
+    file-path: images\head\
+    project-path: D:\Java\Environment\apache-tomcat-8.5.35\webapps\jobya\

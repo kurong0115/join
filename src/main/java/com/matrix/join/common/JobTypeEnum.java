@@ -1,5 +1,10 @@
 package com.matrix.join.common;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
 /**
  * @ClassName JobTypeEnum
  * @Description 职位类型枚举
@@ -29,13 +34,14 @@ public enum JobTypeEnum {
      * @return
      */
     public static String type(Integer code) {
-        JobTypeEnum[] enums = JobTypeEnum.values();
-        for (JobTypeEnum jobTypeEnum: enums) {
-            if (jobTypeEnum.code.equals(code)) {
-                return jobTypeEnum.type;
-            }
+        if (!Objects.isNull(code)) {
+            JobTypeEnum[] enums = JobTypeEnum.values();
+            String type = null;
+            List<String> list = Arrays.stream(enums).filter(x -> code.equals(x.code)).map(x -> x.type).collect(Collectors.toList());
+            return type = list.isEmpty() ? null : list.get(0);
+        } else {
+            return null;
         }
-        return null;
     }
 
     /**
@@ -44,12 +50,13 @@ public enum JobTypeEnum {
      * @return
      */
     public static Integer code(String type) {
-        JobTypeEnum[] enums = JobTypeEnum.values();
-        for (JobTypeEnum jobTypeEnum: enums) {
-            if (jobTypeEnum.type.equals(type)) {
-                return jobTypeEnum.code;
-            }
+        if (!Objects.isNull(type)) {
+            JobTypeEnum[] enums = JobTypeEnum.values();
+            Integer code = null;
+            List<Integer> list = Arrays.stream(enums).filter(x -> type.equals(x.type)).map(x -> x.code).collect(Collectors.toList());
+            return code = list.isEmpty() ? null : list.get(0);
+        } else {
+            return null;
         }
-        return null;
     }
 }

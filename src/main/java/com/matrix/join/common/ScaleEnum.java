@@ -1,5 +1,10 @@
 package com.matrix.join.common;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
 /**
  * @ClassName ScaleEnum
  * @Description 人数区间枚举
@@ -71,15 +76,14 @@ public enum ScaleEnum {
 	 * @return
 	 */
 	public static String getScale(Integer code) {
-		ScaleEnum[] enums = ScaleEnum.values();
-		String scale = null;
-		for (ScaleEnum scaleEnum: enums) {
-			if (code.equals(scaleEnum.code)) {
-				scale = scaleEnum.scale;
-				break;
-			}
-		}
-		return scale;
+        if (!Objects.isNull(code)) {
+            ScaleEnum[] enums = ScaleEnum.values();
+            String scale = null;
+            List<String> list = Arrays.stream(enums).filter(x -> code.equals(x.code)).map(x -> x.scale).collect(Collectors.toList());
+            return scale = list.isEmpty() ? null : list.get(0);
+        } else {
+            return null;
+        }
 	}
 
 	/**
@@ -88,14 +92,17 @@ public enum ScaleEnum {
 	 * @return
 	 */
 	public static Integer getCode(String scale) {
-		Integer code = null;
-		ScaleEnum[] enums = ScaleEnum.values();
-		for (ScaleEnum scaleEnum: enums){
-			if (scale.equals(scaleEnum.scale)) {
-				code = scaleEnum.code;
-				break;
-			}
-		}
-		return code;
+        if (!Objects.isNull(scale)) {
+            ScaleEnum[] enums = ScaleEnum.values();
+            Integer code = null;
+            List<Integer> list = Arrays.stream(enums).filter(x -> scale.equals(x.scale)).map(x -> x.code).collect(Collectors.toList());
+            return code = list.isEmpty() ? null : list.get(0);
+        } else {
+            return null;
+        }
+	}
+
+	public static void main(String[] args) {
+		Arrays.stream(ScaleEnum.values()).forEach(x -> System.out.print(x.code + "为" + x.scale + "，"));
 	}
 }

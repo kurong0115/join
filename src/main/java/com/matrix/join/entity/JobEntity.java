@@ -134,4 +134,10 @@ public class JobEntity implements Serializable {
     @JsonFormat(pattern = BasicConstant.DATA_PATTERN)
     private Timestamp gmtModified;
 
+    /**
+     * 图片
+     */
+    @TableField(exist = false)
+    private String icon;
+
 }

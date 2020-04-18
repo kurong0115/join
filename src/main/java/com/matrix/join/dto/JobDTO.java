@@ -142,4 +142,9 @@ public class JobDTO implements Serializable {
     @JsonFormat(pattern = BasicConstant.DATA_PATTERN)
     private Timestamp gmtModified;
 
+    /**
+     * 公司图片
+     */
+    private String icon;
+
 }

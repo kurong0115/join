@@ -3,7 +3,6 @@ package com.matrix.join.config;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.pagination.optimize.JsqlParserCountOptimize;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,7 +16,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * @Version 1.0
  */
 @Configuration
-@MapperScan(value = "com.matrix.join.dao")
 @EnableTransactionManagement
 public class MyBatisPlusConfig {
 

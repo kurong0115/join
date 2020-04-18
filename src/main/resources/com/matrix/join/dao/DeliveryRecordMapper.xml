@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.matrix.join.dao.DeliveryRecordMapper">
+    <select id="listDeliveryRecord" resultType="com.matrix.join.vo.DeliveryRecordVO" parameterType="java.util.Map">
+        select
+            dr.record_id as recordId,
+            dr.job_id as jobId,
+            dr.attach_id as attachId,
+            dr.resume_id as resumeId,
+            dr.sender,
+            dr.receiver,
+            dr.state as state,
+            j.name as jobName,
+            u.user_name as userName
+        from delivery_record dr
+        left join job j on dr.job_id = j.job_no
+        left join user u on dr.sender = u.user_id
+        ${ew.customSqlSegment}
+        order by dr.state
+    </select>
+</mapper>

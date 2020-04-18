@@ -58,4 +58,12 @@ public interface UserService extends IService<UserEntity> {
      * @return
      */
     int bindCompany(BigInteger userId, BigInteger companyNo);
+
+    /**
+     * 重置密码
+     * @param email
+     * @param secret
+     * @return
+     */
+    int recoveryPassword(String email, String secret);
 }

@@ -23,7 +23,9 @@ import java.sql.Timestamp;
 public class CompanyImageEntity implements Serializable {
 
 	private Integer id;
+
 	private BigInteger companyNo;
+
 	private String url;
 
 	/**

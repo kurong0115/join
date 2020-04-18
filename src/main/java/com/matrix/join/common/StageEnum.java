@@ -1,5 +1,10 @@
 package com.matrix.join.common;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
 /**
  * @ClassName StageEnum
  * @Description 融资情况枚举
@@ -80,15 +85,14 @@ public enum StageEnum {
 	 * @return
 	 */
 	public static String stage(Integer code) {
-		String stage = null;
-		StageEnum[] enums = StageEnum.values();
-		for (StageEnum stageEnum: enums) {
-			if (code.equals(stageEnum.code)) {
-				stage = stageEnum.stage;
-				break;
-			}
+		if (!Objects.isNull(code)) {
+			StageEnum[] enums = StageEnum.values();
+			String stage = null;
+			List<String> list = Arrays.stream(enums).filter(x -> code.equals(x.code)).map(x -> x.stage).collect(Collectors.toList());
+			return stage = list.isEmpty() ? null : list.get(0);
+		} else {
+			return null;
 		}
-		return stage;
 	}
 
 	/**
@@ -97,14 +101,17 @@ public enum StageEnum {
 	 * @return
 	 */
 	public static Integer getCode(String stage) {
-		Integer code = null;
-		StageEnum[] enums = StageEnum.values();
-		for (StageEnum stageEnum: enums) {
-			if (stage.equals(stageEnum.stage)) {
-				code = stageEnum.code;
-				break;
-			}
+		if (!Objects.isNull(stage)) {
+			StageEnum[] enums = StageEnum.values();
+			Integer code = null;
+			List<Integer> list = Arrays.stream(enums).filter(x -> stage.equals(x.stage)).map(x -> x.code).collect(Collectors.toList());
+			return code = list.isEmpty() ? null : list.get(0);
+		} else {
+			return null;
 		}
-		return code;
+	}
+
+	public static void main(String[] args) {
+		Arrays.stream(StageEnum.values()).forEach(x -> System.out.print(x.code + "为" + x.stage + "，"));
 	}
 }

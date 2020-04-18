@@ -19,4 +19,15 @@ public class MailConstant {
 
     public static final long TIME_OUT = 5;
 
+    public static final String ATTACH_SUBJECT = "JOBYA附件简历投递";
+
+    public static final String ATTACH_CONTENT = "您已收到附件简历，请尽快完成简历初筛！！！！！！！！！";
+
+    public static final String RECOVERY = "recovery";
+
+    public static final String RECOVERY_SUBJECT = "JOBYA用户重置密码";
+
+    public static final String RECOVERY_PREFIX = "您收到的用于重置密码的链接：";
+
+    public static final String PROJECT_PATH = "http://120.24.48.43:8080/jobya/recovery_passward.html?email=";
 }

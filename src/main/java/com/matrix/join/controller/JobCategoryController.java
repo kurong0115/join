@@ -6,7 +6,6 @@ import com.matrix.join.entity.JobCategoryEntity;
 import com.matrix.join.protocol.ApiResponse;
 import com.matrix.join.service.JobCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,7 +27,6 @@ public class JobCategoryController {
     @Autowired
     JobCategoryService jobCategoryService;
 
-    @Cacheable(value = "categoryList")
     @GetMapping(value = "/listAllCategory")
     public ApiResponse<List<JobCategoryDTO>> listAllCategory() {
         List<JobCategoryEntity> categoryEntityList = jobCategoryService.list();

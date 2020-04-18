@@ -1,5 +1,10 @@
 package com.matrix.join.common;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
 /**
  * @ClassName CommonEnum
  * @Description TODO
@@ -29,13 +34,14 @@ public enum CommonEnum {
      * @return
      */
     public static Integer code(String message) {
-        CommonEnum[] enums = CommonEnum.values();
-        for (CommonEnum commonEnum: enums) {
-            if (commonEnum.message.equals(message)) {
-                return commonEnum.code;
-            }
+        if (!Objects.isNull(message)) {
+            CommonEnum[] enums = CommonEnum.values();
+            Integer code = null;
+            List<Integer> list = Arrays.stream(enums).filter(x -> message.equals(x.message)).map(x -> x.code).collect(Collectors.toList());
+            return code = list.isEmpty() ? null : list.get(0);
+        } else {
+            return null;
         }
-        return null;
     }
 
     /**
@@ -44,12 +50,13 @@ public enum CommonEnum {
      * @return
      */
     public static String message(Integer code) {
-        CommonEnum[] enums = CommonEnum.values();
-        for (CommonEnum commonEnum: enums) {
-            if (commonEnum.code.equals(code)) {
-                return commonEnum.message;
-            }
+        if (!Objects.isNull(code)) {
+            CommonEnum[] enums = CommonEnum.values();
+            String message = null;
+            List<String> list = Arrays.stream(enums).filter(x -> code.equals(x.code)).map(x -> x.message).collect(Collectors.toList());
+            return message = list.isEmpty() ? null : list.get(0);
+        } else {
+            return null;
         }
-        return null;
     }
 }

@@ -2,6 +2,7 @@ package com.matrix.join.common;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -16,27 +17,31 @@ public enum MaritalStatusEnum {
     /**
      *
      */
-    UNMARRIED(0, "未婚"), MARRIED(1, "已婚");
+    UNMARRIED((byte) 0, "未婚"), MARRIED((byte) 1, "已婚");
 
-    private Integer code;
+    private Byte code;
 
-    private String message;
+    private String maritalStatus;
 
-    MaritalStatusEnum(Integer code, String message) {
+    MaritalStatusEnum(Byte code, String maritalStatus) {
         this.code = code;
-        this.message = message;
+        this.maritalStatus = maritalStatus;
     }
 
     /**
      * 获取编码
-     * @param message
+     * @param maritalStatus
      * @return
      */
-    public static Integer code(String message) {
-        MaritalStatusEnum[] enums = MaritalStatusEnum.values();
-        Integer code = null;
-        List<Integer> list = Arrays.stream(enums).filter(x -> message.equals(x.message)).map(x -> x.code).collect(Collectors.toList());
-        return code = list.isEmpty() ? null : list.get(0);
+    public static Byte code(String maritalStatus) {
+        if (!Objects.isNull(maritalStatus)) {
+            MaritalStatusEnum[] enums = MaritalStatusEnum.values();
+            Byte code = null;
+            List<Byte> list = Arrays.stream(enums).filter(x -> maritalStatus.equals(x.maritalStatus)).map(x -> x.code).collect(Collectors.toList());
+            return code = list.isEmpty() ? null : list.get(0);
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -44,10 +49,18 @@ public enum MaritalStatusEnum {
      * @param code
      * @return
      */
-    public static String message(Integer code) {
-        MaritalStatusEnum[] enums = MaritalStatusEnum.values();
-        String message = null;
-        List<String> list = Arrays.stream(enums).filter(x -> code.equals(x.code)).map(x -> x.message).collect(Collectors.toList());
-        return message = list.isEmpty() ? null : list.get(0);
+    public static String maritalStatus(Byte code) {
+        if (!Objects.isNull(code)) {
+            MaritalStatusEnum[] enums = MaritalStatusEnum.values();
+            String maritalStatus = null;
+            List<String> list = Arrays.stream(enums).filter(x -> code.equals(x.code)).map(x -> x.maritalStatus).collect(Collectors.toList());
+            return maritalStatus = list.isEmpty() ? null : list.get(0);
+        } else {
+            return null;
+        }
+    }
+
+    public static void main(String[] args) {
+        System.out.println(code("1"));
     }
 }

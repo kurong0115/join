@@ -47,7 +47,7 @@ public class ParseCompanyInfo {
 		requestMethod.setHeader("Accept-Language", "zh-cn,zh;q=0.5");
 		requestMethod.setHeader("Accept-Charset", "GB2312,utf-8;q=0.7,*;q=0.7");
 		requestMethod.setHeader("accept-encoding", "gzip");
-		requestMethod.setHeader("refer",  "https://www.zhipin.com/gongsi/37f2888188aaedbe1XN92dq9.html?ka=brand_list_company_1");
+		//requestMethod.setHeader("refer",  "https://www.zhipin.com/gongsi/37f2888188aaedbe1XN92dq9.html?ka=brand_list_company_1");
 		requestMethod.setHeader("cookie", cookie);
 	}
 

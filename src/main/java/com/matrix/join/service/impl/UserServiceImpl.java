@@ -1,6 +1,7 @@
 package com.matrix.join.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.matrix.join.constant.BasicConstant;
 import com.matrix.join.constant.MailConstant;
@@ -12,8 +13,13 @@ import com.matrix.join.service.UserService;
 import com.matrix.join.util.PrimaryKeyGenerator;
 import com.matrix.join.util.RedisUtil;
 import com.matrix.join.util.SecretUtils;
+import com.matrix.join.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigInteger;
 import java.util.Objects;
@@ -26,6 +32,7 @@ import java.util.Objects;
  * @Version 1.0
  */
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> implements UserService {
 
     @Autowired
@@ -44,6 +51,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
         return userEntity;
     }
 
+    @Cacheable(value = "user", key = "#userId")
     @Override
     public UserEntity getUserByUserId(BigInteger userId) {
         if (Objects.isNull(userId)) {
@@ -80,6 +88,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
         return userEntity;
     }
 
+    @CachePut(value = "user", key = "#result.userId")
     @Override
     public UserEntity updateUserInfo(UserEntity userEntity) {
         Objects.requireNonNull(userEntity.getUserId(), UserConstant.USER_ID_IS_NOT_NULL);
@@ -93,6 +102,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
         return userEntity;
     }
 
+    @CacheEvict(value = "user", key = "#userId")
     @Override
     public int bindCompany(BigInteger userId, BigInteger companyNo) {
         Objects.requireNonNull(userId, UserConstant.USER_ID_IS_NOT_NULL);
@@ -102,5 +112,24 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
         QueryWrapper<UserEntity> wrapper = new QueryWrapper<>();
         wrapper.eq(UserConstant.USER_ID, userId);
         return userMapper.update(user, wrapper);
+    }
+
+    @Override
+    public int recoveryPassword(String email, String secret) {
+        String code = redisUtil.get(StringUtils.concat(email, MailConstant.RECOVERY));
+        Objects.requireNonNull(code, "秘钥已失效");
+        if (!secret.equals(code)) {
+            throw new JoinBizException("秘钥不对");
+        }
+        UpdateWrapper<UserEntity> updateWrapper = new UpdateWrapper<>();
+        String password = SecretUtils.getMD5String(UserConstant.DEFAULT_PASSWORD);
+        System.out.println(password);
+        updateWrapper.eq("email", email);
+        UserEntity userEntity = new UserEntity();
+        userEntity.setEmail(email);
+        userEntity.setPassword(password);
+        userMapper.update(userEntity, updateWrapper);
+        redisUtil.delete(StringUtils.concat(email, MailConstant.RECOVERY));
+        return 0;
     }
 }

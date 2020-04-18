@@ -1,5 +1,10 @@
 package com.matrix.join.common;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
 /**
  * @ClassName GenderEnum
  * @Description 性别枚举
@@ -29,13 +34,14 @@ public enum GenderEnum {
      * @return
      */
     public static String gender(Integer code) {
-        GenderEnum[] enums = GenderEnum.values();
-        for (GenderEnum genderEnum: enums) {
-            if (genderEnum.code.equals(code)) {
-                return genderEnum.gender;
-            }
+        if (!Objects.isNull(code)) {
+            GenderEnum[] enums = GenderEnum.values();
+            String gender = null;
+            List<String> list = Arrays.stream(enums).filter(x -> code.equals(x.code)).map(x -> x.gender).collect(Collectors.toList());
+            return gender = list.isEmpty() ? null : list.get(0);
+        } else {
+            return null;
         }
-        return null;
     }
 
     /**
@@ -44,12 +50,17 @@ public enum GenderEnum {
      * @return
      */
     public static Integer code(String gender) {
-        GenderEnum[] enums = GenderEnum.values();
-        for (GenderEnum genderEnum: enums) {
-            if (genderEnum.gender.equals(gender)) {
-                return genderEnum.code;
-            }
+        if (!Objects.isNull(gender)) {
+            GenderEnum[] enums = GenderEnum.values();
+            Integer code = null;
+            List<Integer> list = Arrays.stream(enums).filter(x -> gender.equals(x.gender)).map(x -> x.code).collect(Collectors.toList());
+            return code = list.isEmpty() ? null : list.get(0);
+        } else {
+            return null;
         }
-        return null;
+    }
+
+    public static void main(String[] args) {
+        Arrays.stream(GenderEnum.values()).forEach(x -> System.out.print(x.code + "为" + x.gender + "，"));
     }
 }

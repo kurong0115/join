@@ -1,10 +1,10 @@
 package com.matrix.join.service.impl;
 
 import com.matrix.join.constant.MailConstant;
-import com.matrix.join.protocol.JoinBizException;
 import com.matrix.join.service.MailService;
 import com.matrix.join.util.RedisUtil;
 import com.matrix.join.util.SecretUtils;
+import com.matrix.join.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
@@ -60,6 +60,21 @@ public class MailServiceImpl implements MailService {
 
 	@Async
 	@Override
+	public void sendRecoveryEmail(String email) {
+        String emailKey = StringUtils.concat(email, MailConstant.RECOVERY);
+        String secret = SecretUtils.getUUID();
+        String text = StringUtils.concat(MailConstant.RECOVERY_PREFIX, MailConstant.PROJECT_PATH, email, "&secret=", secret, MailConstant.SUFFIX);
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom(from);
+        message.setSubject(MailConstant.RECOVERY_SUBJECT);
+        message.setTo(email);
+        message.setText(text);
+        redisUtil.setEx(emailKey, secret, MailConstant.TIME_OUT, TimeUnit.MINUTES);
+        mailSender.send(message);
+	}
+
+	@Async
+	@Override
 	public void sendSimpleMessage(String to, String subject, String content) {
 		SimpleMailMessage message = new SimpleMailMessage();
 		message.setFrom(from);
@@ -72,17 +87,18 @@ public class MailServiceImpl implements MailService {
     @Async
     @Override
     public void sendSimpleMessage(String to) {
-	    String emailKey = to + MailConstant.REGISTER;
-        StringBuilder stringBuilder = new StringBuilder();
-        String verification = SecretUtils.generateCode();
-	    stringBuilder.append(MailConstant.REGISTER_PREFIX).append(verification)
-                .append(MailConstant.SUFFIX);
+	    String emailKey = StringUtils.concat(to, MailConstant.REGISTER);
+		String verification = SecretUtils.generateCode();
+//        StringBuilder stringBuilder = new StringBuilder();
+//	    stringBuilder.append(MailConstant.REGISTER_PREFIX).append(verification)
+//                .append(MailConstant.SUFFIX);
+	    String text = StringUtils.concat(MailConstant.REGISTER_PREFIX, verification, MailConstant.SUFFIX);
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(from);
         message.setSubject(MailConstant.REGISTER_SUBJECT);
         message.setTo(to);
-        message.setText(stringBuilder.toString());
-        mailSender.send(message);
+        message.setText(text);
         redisUtil.setEx(emailKey, verification, MailConstant.TIME_OUT, TimeUnit.MINUTES);
+        mailSender.send(message);
     }
 }

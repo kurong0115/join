@@ -113,30 +113,12 @@ public class DTOConverter {
                     .workExperience(WorkExperienceEnum.workExperience(jobEntity.getWorkExperience().intValue()))
                     .email(jobEntity.getEmail())
                     .address(jobEntity.getAddress())
+                    .icon(jobEntity.getIcon())
                     .build();
             return (T) dto;
         }
         return null;
 
-//        T t = null;
-//        try {
-//            t = clazz.newInstance();
-//            Class<? extends JobEntity> jobEntityClass = jobEntity.getClass();
-//            Arrays.stream(clazz.getDeclaredFields()).forEach(x -> {
-//                System.out.println(x.getType().getSimpleName() + "--->" + x.getName());
-//                try {
-//                    Field field = jobEntityClass.getField(x.getName());
-//                    System.out.println(x.equals(field));
-//                } catch (NoSuchFieldException e) {
-//                    e.printStackTrace();
-//                }
-//            });
-//        } catch (InstantiationException e) {
-//            e.printStackTrace();
-//        } catch (IllegalAccessException e) {
-//            e.printStackTrace();
-//        }
-//        return t;
     }
 
     public static void main(String[] args) {

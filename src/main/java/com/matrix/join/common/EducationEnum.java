@@ -1,8 +1,9 @@
 package com.matrix.join.common;
 
-import com.alibaba.fastjson.JSON;
-import lombok.Data;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * @ClassName EducationEnum
@@ -79,16 +80,14 @@ public enum EducationEnum {
      * @return
      */
     public static String education(Integer code) {
-        if (null == code) {
+        if (!Objects.isNull(code)) {
+            EducationEnum[] enums = EducationEnum.values();
+            String education = null;
+            List<String> list = Arrays.stream(enums).filter(x -> code.equals(x.code)).map(x -> x.education).collect(Collectors.toList());
+            return education = list.isEmpty() ? null : list.get(0);
+        } else {
             return null;
         }
-        EducationEnum[] enums = EducationEnum.values();
-        for (EducationEnum educationEnum: enums) {
-            if (educationEnum.code.equals(code)) {
-                return educationEnum.education;
-            }
-        }
-        return null;
     }
 
     /**
@@ -97,13 +96,14 @@ public enum EducationEnum {
      * @return
      */
     public static Integer code(String education) {
-        EducationEnum[] enums = EducationEnum.values();
-        for (EducationEnum educationEnum: enums) {
-            if (educationEnum.education.equals(education)) {
-                return educationEnum.code;
-            }
+        if (!Objects.isNull(education)) {
+            EducationEnum[] enums = EducationEnum.values();
+            Integer code = null;
+            List<Integer> list = Arrays.stream(enums).filter(x -> education.equals(x.education)).map(x -> x.code).collect(Collectors.toList());
+            return code = list.isEmpty() ? null : list.get(0);
+        } else {
+            return null;
         }
-        return null;
     }
 
     @Override
@@ -112,5 +112,9 @@ public enum EducationEnum {
                 "code=" + code +
                 ", education='" + education + '\'' +
                 '}';
+    }
+
+    public static void main(String[] args) {
+        Arrays.stream(EducationEnum.values()).forEach(x -> System.out.print(x.code + "为" + x.education + "，"));
     }
 }

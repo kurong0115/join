@@ -1,5 +1,10 @@
 package com.matrix.join.common;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
 /**
  * @ClassName SalaryEnum
  * @Description 工资枚举
@@ -79,13 +84,14 @@ public enum SalaryEnum {
      * @return
      */
     public static String salary(Integer code) {
-        SalaryEnum[] enums = SalaryEnum.values();
-        for (SalaryEnum salaryEnum: enums) {
-            if (salaryEnum.code.equals(code)) {
-                return salaryEnum.salary;
-            }
+        if (!Objects.isNull(code)) {
+            SalaryEnum[] enums = SalaryEnum.values();
+            String salary = null;
+            List<String> list = Arrays.stream(enums).filter(x -> code.equals(x.code)).map(x -> x.salary).collect(Collectors.toList());
+            return salary = list.isEmpty() ? null : list.get(0);
+        } else {
+            return null;
         }
-        return null;
     }
 
     /**
@@ -94,12 +100,17 @@ public enum SalaryEnum {
      * @return
      */
     public static Integer code(String salary) {
-        SalaryEnum[] enums = SalaryEnum.values();
-        for (SalaryEnum salaryEnum: enums) {
-            if (salaryEnum.salary.equals(salary)) {
-                return salaryEnum.code;
-            }
+        if (!Objects.isNull(salary)) {
+            SalaryEnum[] enums = SalaryEnum.values();
+            Integer code = null;
+            List<Integer> list = Arrays.stream(enums).filter(x -> salary.equals(x.salary)).map(x -> x.code).collect(Collectors.toList());
+            return code = list.isEmpty() ? null : list.get(0);
+        } else {
+            return null;
         }
-        return null;
+    }
+
+    public static void main(String[] args) {
+        Arrays.stream(SalaryEnum.values()).forEach(x -> System.out.print(x.code + "为" + x.salary + "，"));
     }
 }

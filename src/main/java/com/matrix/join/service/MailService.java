@@ -31,4 +31,10 @@ public interface MailService {
 	 * @param to 发件人
 	 */
 	void sendSimpleMessage(String to);
+
+    /**
+     * 重置密码邮件
+     * @param email
+     */
+    void sendRecoveryEmail(String email);
 }

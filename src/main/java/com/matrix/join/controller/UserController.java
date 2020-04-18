@@ -8,19 +8,20 @@ import com.matrix.join.dto.UserInfoDTO;
 import com.matrix.join.entity.CompanyEntity;
 import com.matrix.join.entity.UserEntity;
 import com.matrix.join.protocol.ApiResponse;
-import com.matrix.join.protocol.JoinBizException;
 import com.matrix.join.service.CompanyService;
+import com.matrix.join.service.MailService;
 import com.matrix.join.service.UserService;
-import com.matrix.join.util.BindResultUtil;
 import com.matrix.join.util.JwtUtils;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.math.BigInteger;
-import java.util.Objects;
 
 /**
  * @ClassName UserController
@@ -31,6 +32,7 @@ import java.util.Objects;
  */
 @RestController
 @RequestMapping(value = "/user")
+@Api(value = "用户接口")
 public class UserController {
 
     @Autowired
@@ -39,7 +41,15 @@ public class UserController {
     @Autowired
     CompanyService companyService;
 
+    @Autowired
+    MailService mailService;
+
+    @ApiOperation(value = "用户登录")
     @PostMapping(value = "/login")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "email", value = "邮箱", required = true),
+            @ApiImplicitParam(name = "password", value = "密码", required = true)
+    })
     public ApiResponse<UserInfoDTO> login(@RequestParam(value = "email", required = true) String email,
                                           @RequestParam(value = "password", required = true) String password) {
         UserEntity userEntity = userService.login(email, password);
@@ -83,6 +93,13 @@ public class UserController {
     public ApiResponse<String> bindCompany(@RequestParam(value = "companyNo", required = true) BigInteger companyNo,
                                            @RequestParam(value = "userId", required = true) BigInteger userId) {
         int result = userService.bindCompany(userId, companyNo);
+        return ApiResponse.responseData(null);
+    }
+
+    @PostMapping(value = "/recoveryPassword")
+    public ApiResponse<Object> recoveryPassword(@RequestParam(name = "email", required = true) String email,
+                                                @RequestParam(name = "secret", required = true) String secret) {
+        userService.recoveryPassword(email, secret);
         return ApiResponse.responseData(null);
     }
 }

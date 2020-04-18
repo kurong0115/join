@@ -136,7 +136,7 @@ public class CompanyEntity implements Serializable {
      * 社会统一信用编码
      */
     @NotBlank(message = "社会统一信用编码为必填项")
-    @Length(min = 16, max = 16, message = "社会统一信用编码长度非法")
+    @Length(min = 18, max = 18, message = "社会统一信用编码长度非法")
     private String uniformCreditCode;
 
     /**
@@ -145,6 +145,11 @@ public class CompanyEntity implements Serializable {
     @NotBlank(message = "经营范围为必填项")
     @Length(max = 2555, message = "经营范围长度超过限制")
     private String scope;
+
+    /**
+     * 记录创建人
+     */
+    private BigInteger creator;
 
     /**
      * 创建时间

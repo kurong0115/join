@@ -24,4 +24,10 @@ public class MailController {
         mailService.sendSimpleMessage(email);
         return new ApiResponse<String>().builder().code(200).message("ok").build();
     }
+
+    @PostMapping(value = "/sendRecoveryEmail")
+    public ApiResponse<Object> sendRecoveryEmail(@RequestParam(value = "email", required = true) String email) {
+        mailService.sendRecoveryEmail(email);
+        return ApiResponse.responseData(null);
+    }
 }

@@ -1,14 +1,20 @@
 package com.matrix.join.controller;
 
 import com.auth0.jwt.JWT;
+import com.matrix.join.annotation.UserLogin;
 import com.matrix.join.constant.BasicConstant;
 import com.matrix.join.protocol.ApiResponse;
 import com.matrix.join.protocol.JoinBizException;
+import com.matrix.join.service.CompanyService;
+import com.matrix.join.service.DeliveryRecordService;
+import com.matrix.join.service.JobService;
+import com.matrix.join.service.UserService;
+import com.matrix.join.util.FileUtils;
+import com.matrix.join.util.StringUtils;
+import com.matrix.join.vo.CountVO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,6 +35,25 @@ public class BaseController {
     @Value("${file.head.path}")
     String path;
 
+    @Value("${file.head.file-path}")
+    String filePath;
+
+    @Value("${file.head.project-path}")
+    String projectPath;
+
+    @Autowired
+    CompanyService companyService;
+
+    @Autowired
+    JobService jobService;
+
+    @Autowired
+    UserService userService;
+
+    @Autowired
+    DeliveryRecordService recordService;
+
+    @UserLogin
     @PostMapping("/upload")
     public ApiResponse<String> uploadIcon(@RequestParam(name = "file", required = true) MultipartFile file,
                                           HttpServletRequest request) {
@@ -39,15 +64,27 @@ public class BaseController {
             throw new JoinBizException("请输入正确格式文件");
         }
         try {
-            File upFile = new File(path + id);
+            //File upFile = new File(StringUtils.concat(path, id, File.separator, filename));
+            File upFile = new File(StringUtils.concat(path, id));
             if (!upFile.exists()) {
                 upFile.mkdir();
             }
-            file.transferTo(new File(upFile, filename));
-            return new ApiResponse<String>().builder().code(200).message("ok").data(id + File.separator + filename).build();
+            upFile = new File(StringUtils.concat(path, id, File.separator, filename));
+            if (upFile.exists()) {
+                filename = FileUtils.changeFileName(filename);
+                upFile = new File(StringUtils.concat(path, id, File.separator, filename));
+            }
+            file.transferTo(upFile);
+            return new ApiResponse<String>().builder().code(200).message("ok").data(StringUtils.concat(filePath, id, File.separator, filename)).build();
         } catch (IOException e) {
             e.printStackTrace();
-            return new ApiResponse<String>().builder().code(200).message("ok").data("上传失败").build();
+            return new ApiResponse<String>().builder().code(500).message("fail").data("上传失败").build();
         }
     }
+
+    @GetMapping(value = "getCount")
+    public ApiResponse<CountVO> getCount() {
+        return ApiResponse.responseData(new CountVO(companyService.count(), userService.count(), jobService.count(), recordService.count()));
+    }
+
 }
