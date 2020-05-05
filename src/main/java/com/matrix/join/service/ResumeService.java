@@ -1,5 +1,7 @@
 package com.matrix.join.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.matrix.join.entity.ResumeEntity;
 import com.matrix.join.entity.UserResume;
@@ -28,4 +30,19 @@ public interface ResumeService extends IService<ResumeEntity> {
      * @return
      */
     UserResume getResume(BigInteger userId);
+
+    /**
+     * 分页查询简历信息
+     * @param resumeId
+     * @param userId
+     * @param page
+     * @return
+     */
+    IPage<UserResume> listResume(BigInteger resumeId, BigInteger userId, Page<ResumeEntity> page);
+
+    /**
+     * 删除简历
+     * @param resumeId
+     */
+    void removeResume(BigInteger resumeId);
 }

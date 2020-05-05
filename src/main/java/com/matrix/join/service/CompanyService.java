@@ -1,5 +1,7 @@
 package com.matrix.join.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.matrix.join.entity.CompanyEntity;
 
@@ -35,4 +37,20 @@ public interface CompanyService extends IService<CompanyEntity> {
      */
     CompanyEntity getCompanyByUniformCreditCode(String uniformCreditCode);
 
+    /**
+     * 查询公司列表
+     * @param name
+     * @param city
+     * @param scale
+     * @param stage
+     * @param companyEntityPage
+     * @return
+     */
+    IPage<CompanyEntity> listCompany(String name, String city, byte scale, byte stage, byte isDel, Page<CompanyEntity> companyEntityPage);
+
+    /**
+     * 停用公司
+     * @param companyNo
+     */
+    void stopCompany(BigInteger companyNo, Byte isDel);
 }

@@ -1,6 +1,9 @@
 package com.matrix.join.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.matrix.join.dao.ResumeEducationMapper;
 import com.matrix.join.dao.ResumeMapper;
@@ -9,6 +12,7 @@ import com.matrix.join.entity.ResumeEducationEntity;
 import com.matrix.join.entity.ResumeEntity;
 import com.matrix.join.entity.ResumeWorkExperienceEntity;
 import com.matrix.join.entity.UserResume;
+import com.matrix.join.protocol.Pagination;
 import com.matrix.join.service.ResumeEducationService;
 import com.matrix.join.service.ResumeService;
 import com.matrix.join.service.ResumeWorkExperienceService;
@@ -22,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigInteger;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * @ClassName ResumeServiceImpl
@@ -81,5 +86,40 @@ public class ResumeServiceImpl extends ServiceImpl<ResumeMapper, ResumeEntity> i
                 .resumeEducationList(educationList)
                 .resumeWorkExperienceList(workExperienceList)
                 .build();
+    }
+
+    @Override
+    public IPage<UserResume> listResume(BigInteger resumeId, BigInteger userId, Page<ResumeEntity> page) {
+        QueryWrapper<ResumeEntity> wrapper = new QueryWrapper<>();
+        if (Objects.nonNull(resumeId)) {
+            wrapper.eq("resume_id", resumeId);
+        }
+        if (Objects.nonNull(resumeId)) {
+            wrapper.eq("user_id", userId);
+        }
+        Page<ResumeEntity> resumeList = resumeMapper.selectPage(page, wrapper);
+        System.out.println(resumeList.getCurrent() + "-" + resumeList.getSize() + "-" + resumeList.getTotal());
+        Page<UserResume> userResumeList = new Page<>();
+        List<UserResume> collect = resumeList.getRecords().stream().map(x -> {
+            List<ResumeEducationEntity> educationList = resumeEducationService.list(new QueryWrapper<ResumeEducationEntity>().eq("user_id", x.getUserId()));
+            List<ResumeWorkExperienceEntity> workExperienceList = resumeWorkExperienceService.list(new QueryWrapper<ResumeWorkExperienceEntity>().eq("user_id", x.getUserId()));
+            return UserResume.builder()
+                    .resume(x)
+                    .resumeEducationList(educationList)
+                    .resumeWorkExperienceList(workExperienceList)
+                    .build();
+        }).collect(Collectors.toList());
+        userResumeList.setRecords(collect);
+        Pagination.convert(userResumeList, resumeList);
+        return userResumeList;
+    }
+
+    @CacheEvict(value = "resume", key = "#resumeId")
+    @Override
+    public void removeResume(BigInteger resumeId) {
+        Objects.requireNonNull(resumeId, "简历编号不能为空");
+        remove(new UpdateWrapper<ResumeEntity>().eq("resume_id", resumeId));
+        resumeEducationService.remove(new UpdateWrapper<ResumeEducationEntity>().eq("resume_id", resumeId));
+        resumeWorkExperienceService.remove(new UpdateWrapper<ResumeWorkExperienceEntity>().eq("resume_id", resumeId));
     }
 }

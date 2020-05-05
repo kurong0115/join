@@ -1,5 +1,7 @@
 package com.matrix.join.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.matrix.join.entity.UserEntity;
 
@@ -20,7 +22,7 @@ public interface UserService extends IService<UserEntity> {
      * @param password 密码
      * @return
      */
-    UserEntity login(String email, String password);
+    UserEntity login(String email, String password, Byte userType);
 
     /**
      * 根据用户编号获取用户信息
@@ -66,4 +68,33 @@ public interface UserService extends IService<UserEntity> {
      * @return
      */
     int recoveryPassword(String email, String secret);
+
+    /**
+     * 解绑
+     * @param userId
+     */
+    void unbound(BigInteger userId);
+
+    /**
+     * 修改密码
+     * @param userId
+     * @param password
+     * @param oldPassword
+     */
+    void updatePassword(BigInteger userId, String password, String oldPassword);
+
+    /**
+     * 查询用户信息
+     * @param isDel
+     * @param userEntityPage
+     * @return
+     */
+    IPage<UserEntity> listUser(String name, byte isDel, Page<UserEntity> userEntityPage);
+
+    /**
+     * 停用用户信息
+     * @param userId
+     * @param isDel
+     */
+    void stopUser(BigInteger userId, Byte isDel);
 }

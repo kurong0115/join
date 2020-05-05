@@ -69,8 +69,8 @@ public class DeliveryRecordServiceImpl extends ServiceImpl<DeliveryRecordMapper,
             deliveryRecordEntity.setResumeId(resume.getResumeId());
         } else {
             // 同时向招聘者发送附件简历邮件
-            ResumeAttachEntity attach = resumeAttachService.getOne(new QueryWrapper<ResumeAttachEntity>().eq("attach_id", deliveryRecordEntity.getAttachId()));
             JobEntity job = jobService.getJob(deliveryRecordEntity.getJobId());
+            ResumeAttachEntity attach = resumeAttachService.getOne(new QueryWrapper<ResumeAttachEntity>().eq("attach_id", deliveryRecordEntity.getAttachId()));
             mailService.sendAttachMail(job.getEmail(), MailConstant.ATTACH_SUBJECT, MailConstant.ATTACH_CONTENT, StringUtils.concat(projectPath, attach.getUrl()));
         }
         deliveryRecordEntity.setRecordId(PrimaryKeyGenerator.generatePrimaryKey());

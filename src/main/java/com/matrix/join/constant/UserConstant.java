@@ -22,4 +22,14 @@ public class UserConstant {
 
     public static final String DEFAULT_PASSWORD = "123456";
 
+    /**
+     * 普通用户类型
+     */
+    public static final int NORMAL_USER_TYPE = 0;
+
+    /**
+     * 系统管理员用户类型
+     */
+    public static final int ADMIN = 1;
+
 }

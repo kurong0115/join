@@ -1,13 +1,17 @@
 package com.matrix.join;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.matrix.join.service.DeliveryRecordService;
 import com.matrix.join.service.MailService;
 import com.matrix.join.util.RedisUtil;
+import com.matrix.join.vo.DeliveryRecordVO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import redis.clients.jedis.Jedis;
 
 import javax.sql.DataSource;
+import java.math.BigInteger;
 
 @SpringBootTest
 class JoinApplicationTests {
@@ -34,24 +38,12 @@ class JoinApplicationTests {
 		mailService.sendSimpleMessage("1181209156@qq.com");
 	}
 
+	@Autowired
+	DeliveryRecordService deliveryRecordService;
+
 	@Test
 	void test() {
-		String host = "r-wz96eeac5d24f3b4pd.redis.rds.aliyuncs.com";//控制台显示访问地址
-		int port = 6379;
-		Jedis jedis = new Jedis(host, port);
-		//鉴权信息
-		jedis.auth("admin:Rp829dlwa");//password
-		String key = "redis";
-		String value = "aliyun-redis";
-		//select db默认为0
-		jedis.select(1);
-		//set一个key
-		jedis.set(key, value);
-		System.out.println("Set Key " + key + " Value: " + value);
-		//get 设置进去的key
-		String getvalue = jedis.get(key);
-		System.out.println("Get Key " + key + " ReturnValue: " + getvalue);
-		jedis.quit();
-		jedis.close();
-	}
+        IPage<DeliveryRecordVO> deliveryRecordVOIPage = deliveryRecordService.listDeliveryRecord(null, new BigInteger("1585883529684"), null, null, null, new Page<>(1, 1));
+        System.out.println(deliveryRecordVOIPage.getRecords());
+    }
 }

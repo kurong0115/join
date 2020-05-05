@@ -60,4 +60,8 @@ public class BasicConstant {
      * 停用
      */
     public static final byte DISABLED = 1;
+
+    public static final String SEPARATOR = "/";
+
+
 }

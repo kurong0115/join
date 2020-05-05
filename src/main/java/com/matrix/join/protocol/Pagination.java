@@ -1,6 +1,7 @@
 package com.matrix.join.protocol;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -49,5 +50,15 @@ public class Pagination implements Serializable {
             return null;
         }
         return new Pagination().setTotal(page.getTotal()).setCurrentPage(page.getCurrent()).setPageSize(page.getSize());
+    }
+
+    /**
+     * 转换
+     * @param to
+     * @param from
+     * @return
+     */
+    public static void convert(Page<?> from, Page<?> to) {
+        to.setTotal(from.getTotal()).setCurrent(from.getCurrent()).setSize(from.getSize());
     }
 }

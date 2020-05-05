@@ -1,5 +1,7 @@
 package com.matrix.join.annotation;
 
+import com.matrix.join.constant.UserConstant;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -17,5 +19,7 @@ import java.lang.annotation.Target;
 public @interface UserLogin {
 
     boolean required() default true;
+
+    int userType() default UserConstant.NORMAL_USER_TYPE;
 
 }

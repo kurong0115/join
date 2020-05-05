@@ -36,7 +36,7 @@ public interface JobService extends IService<JobEntity> {
      * @param jobEntityPage
      * @return
      */
-    IPage<JobEntity> listJob(String name, byte jobCategory, String city, byte salary, byte workExperience, byte education, byte gender, byte jobType, BigInteger creator, Page<JobEntity> jobEntityPage);
+    IPage<JobEntity> listJob(String name, byte jobCategory, String city, byte salary, byte workExperience, byte education, byte gender, byte jobType, BigInteger creator, byte isDel, Page<JobEntity> jobEntityPage);
 
     /**
      * 删除职位信息
@@ -66,4 +66,11 @@ public interface JobService extends IService<JobEntity> {
      * @param creator
      */
     void disableJob(BigInteger jobNo, BigInteger creator);
+
+    /**
+     * 改变状态
+     * @param jobNo
+     * @param isDel
+     */
+    void stopCompany(BigInteger jobNo, Byte isDel);
 }

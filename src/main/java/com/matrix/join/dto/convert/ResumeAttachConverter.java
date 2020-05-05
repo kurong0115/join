@@ -1,5 +1,6 @@
 package com.matrix.join.dto.convert;
 
+import com.matrix.join.constant.BasicConstant;
 import com.matrix.join.dto.ResumeAttachDTO;
 import com.matrix.join.entity.ResumeAttachEntity;
 import org.springframework.stereotype.Component;
@@ -25,7 +26,7 @@ public class ResumeAttachConverter extends CommonConverter{
     public ResumeAttachDTO convertPOToDTO(ResumeAttachEntity resumeAttachEntity) {
         ResumeAttachDTO dto = super.convert(ResumeAttachDTO.class, resumeAttachEntity);
         if (Objects.nonNull(dto) && Objects.nonNull(dto.getUrl())) {
-            int index = resumeAttachEntity.getUrl().lastIndexOf(File.separator);
+            int index = resumeAttachEntity.getUrl().lastIndexOf(BasicConstant.SEPARATOR);
             dto.setFileName(resumeAttachEntity.getUrl().substring(index + 1));
         }
         return dto;

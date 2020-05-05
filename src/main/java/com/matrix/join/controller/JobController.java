@@ -3,6 +3,7 @@ package com.matrix.join.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.matrix.join.annotation.UserLogin;
+import com.matrix.join.constant.UserConstant;
 import com.matrix.join.dto.CompanyJobDTO;
 import com.matrix.join.dto.JobDTO;
 import com.matrix.join.dto.convert.DTOConverter;
@@ -67,9 +68,10 @@ public class JobController {
                                              @RequestParam(value = "jobCategory", required = false, defaultValue = "0") byte jobCategory,
                                              @RequestParam(value = "gender", required = false, defaultValue = "0") byte gender,
                                              @RequestParam(value = "jobType", required = false, defaultValue = "0") byte jobType,
-                                             @RequestParam(value = "creator", required = false) BigInteger creator){
+                                             @RequestParam(value = "creator", required = false) BigInteger creator,
+                                             @RequestParam(value = "isDel", required = false, defaultValue = "3") byte isDel){
         IPage<JobEntity> jobList = jobService.listJob(name, jobCategory, city,
-                salary, workExperience, education, gender,jobType, creator, new Page<JobEntity>(pageNum, pageSize));
+                salary, workExperience, education, gender,jobType, creator, isDel, new Page<JobEntity>(pageNum, pageSize));
         return new ApiResponse<List<JobDTO>>().builder().code(200).message("ok").data(jobList.getRecords().stream()
                 .map(x -> DTOConverter.convert(x, JobDTO.class)).collect(Collectors.toList())).pagination(Pagination.convertPage(jobList)).build();
     }
@@ -91,10 +93,18 @@ public class JobController {
     }
 
     @PostMapping(value = "/disableJob")
+    @UserLogin
     public ApiResponse<Object> disableJob(@RequestParam(name = "jobNo") BigInteger jobNo,
                                           @RequestParam(name = "creator") BigInteger creator){
         jobService.disableJob(jobNo, creator);
         return ApiResponse.responseData(null);
     }
 
+    @GetMapping(value = "/stopJob")
+    @UserLogin(userType = UserConstant.ADMIN)
+    public ApiResponse<Object> stopCompany(@RequestParam(name = "jobNo") BigInteger jobNo,
+                                           @RequestParam(name = "isDel") Byte isDel) {
+        jobService.stopCompany(jobNo, isDel);
+        return ApiResponse.responseData(null);
+    }
 }

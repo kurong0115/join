@@ -63,7 +63,7 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, JobEntity> implements
     }
 
     @Override
-    public IPage<JobEntity> listJob(String name, byte jobCategory, String city, byte salary, byte workExperience, byte education, byte gender, byte jobType, BigInteger creator, Page<JobEntity> jobEntityPage) {
+    public IPage<JobEntity> listJob(String name, byte jobCategory, String city, byte salary, byte workExperience, byte education, byte gender, byte jobType, BigInteger creator, byte isDel, Page<JobEntity> jobEntityPage) {
         QueryWrapper<JobEntity> wrapper = new QueryWrapper<>();
         if (!StringUtils.isEmpty(name)) {
             wrapper.likeRight("name", name);
@@ -92,11 +92,19 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, JobEntity> implements
         if (Objects.nonNull(creator)) {
             wrapper.eq("creator", creator);
         }
-        wrapper.eq("is_del", BasicConstant.ABLE);
+        if (isDel == BasicConstant.DISABLED || isDel == BasicConstant.ABLE) {
+            wrapper.eq("is_del", isDel);
+        }
         Page<JobEntity> page = jobMapper.selectPage(jobEntityPage, wrapper);
-        page.getRecords().stream().forEach(x -> {
-            x.setIcon(companyService.getCompanyByNo(x.getCompanyNo()).getIcon());
-        });
+        if (Objects.nonNull(page) && Objects.nonNull(page.getRecords())) {
+            page.getRecords().stream().forEach(x -> {
+                CompanyEntity company = companyService.getCompanyByNo(x.getCompanyNo());
+                if (Objects.nonNull(company)) {
+                    x.setIcon(company.getIcon());
+                }
+            });
+        }
+
         return page;
     }
 
@@ -149,5 +157,17 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, JobEntity> implements
         jobEntity.setCreator(creator);
         jobEntity.setIsDel(BasicConstant.DISABLED);
         jobMapper.update(jobEntity, updateWrapper);
+    }
+
+    @CacheEvict(value = "job", key = "#jobNo")
+    @Override
+    public void stopCompany(BigInteger jobNo, Byte isDel) {
+        Objects.requireNonNull(jobNo, "职位编号不能为空");
+        JobEntity entity = new JobEntity();
+        entity.setCompanyNo(jobNo);
+        entity.setIsDel(isDel);
+        UpdateWrapper<JobEntity> wrapper = new UpdateWrapper<>();
+        wrapper.eq("job_no", jobNo);
+        jobMapper.update(entity, wrapper);
     }
 }

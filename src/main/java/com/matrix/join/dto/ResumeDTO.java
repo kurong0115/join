@@ -155,12 +155,12 @@ public class ResumeDTO implements Serializable {
     /**
      * 创建时间
      */
-    @JsonFormat(pattern = BasicConstant.DATA_PATTERN)
+    @JsonFormat(pattern = BasicConstant.DATA_PATTERN, timezone="GMT+8")
     private Timestamp gmtCreate;
 
     /**
      * 修改时间
      */
-    @JsonFormat(pattern = BasicConstant.DATA_PATTERN)
+    @JsonFormat(pattern = BasicConstant.DATA_PATTERN, timezone="GMT+8")
     private Timestamp gmtModified;
 }

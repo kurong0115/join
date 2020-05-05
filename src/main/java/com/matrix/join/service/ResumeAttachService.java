@@ -1,5 +1,7 @@
 package com.matrix.join.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.matrix.join.entity.ResumeAttachEntity;
 
@@ -28,4 +30,19 @@ public interface ResumeAttachService extends IService<ResumeAttachEntity> {
      * @return
      */
     int removeResumeAttach(BigInteger attachId, BigInteger userId);
+
+    /**
+     * 删除附件简历
+     * @param attachId
+     */
+    void deleteResumeAttach(BigInteger attachId);
+
+    /**
+     * 分页查询附件
+     * @param userId
+     * @param attachId
+     * @param page
+     * @return
+     */
+    IPage<ResumeAttachEntity> listAttach(BigInteger userId, BigInteger attachId, Page<ResumeAttachEntity> page);
 }

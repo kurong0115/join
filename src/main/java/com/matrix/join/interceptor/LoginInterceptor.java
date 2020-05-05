@@ -6,6 +6,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.matrix.join.annotation.PassToken;
 import com.matrix.join.annotation.UserLogin;
+import com.matrix.join.constant.UserConstant;
 import com.matrix.join.entity.UserEntity;
 import com.matrix.join.protocol.JoinBizException;
 import com.matrix.join.service.UserService;
@@ -58,6 +59,9 @@ public class LoginInterceptor implements HandlerInterceptor {
             UserEntity user = userService.getUserByUserId(BigInteger.valueOf(Long.decode(id)));
             if (user == null){
                 throw new JoinBizException("用户不存在");
+            }
+            if (userLogin.userType() == UserConstant.ADMIN && user.getType() != UserConstant.ADMIN) {
+                throw new JoinBizException("权限不足!!!");
             }
             JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(JwtUtils.SECRET)).build();
             try {

@@ -69,13 +69,13 @@ public class BaseController {
             if (!upFile.exists()) {
                 upFile.mkdir();
             }
-            upFile = new File(StringUtils.concat(path, id, File.separator, filename));
+            upFile = new File(StringUtils.concat(path, id, BasicConstant.SEPARATOR, filename));
             if (upFile.exists()) {
                 filename = FileUtils.changeFileName(filename);
-                upFile = new File(StringUtils.concat(path, id, File.separator, filename));
+                upFile = new File(StringUtils.concat(path, id, BasicConstant.SEPARATOR, filename));
             }
             file.transferTo(upFile);
-            return new ApiResponse<String>().builder().code(200).message("ok").data(StringUtils.concat(filePath, id, File.separator, filename)).build();
+            return new ApiResponse<String>().builder().code(200).message("ok").data(StringUtils.concat(filePath, id, BasicConstant.SEPARATOR, filename)).build();
         } catch (IOException e) {
             e.printStackTrace();
             return new ApiResponse<String>().builder().code(500).message("fail").data("上传失败").build();

@@ -86,15 +86,25 @@ public class UserEntity implements Serializable {
     private String icon;
 
     /**
+     * 用户类型 0 普通用户 1 admin
+     */
+    private Byte type;
+
+    /**
+     *
+     */
+    private Byte isDel;
+
+    /**
      * 创建时间
      */
-    @JsonFormat(pattern = BasicConstant.DATA_PATTERN)
+    @JsonFormat(pattern = BasicConstant.DATA_PATTERN, timezone="GMT+8")
     private Timestamp gmtCreate;
 
     /**
      * 修改时间
      */
-    @JsonFormat(pattern = BasicConstant.DATA_PATTERN)
+    @JsonFormat(pattern = BasicConstant.DATA_PATTERN, timezone="GMT+8")
     private Timestamp gmtModified;
 
 }

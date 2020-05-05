@@ -2,6 +2,8 @@ package com.matrix.join.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.matrix.join.constant.BasicConstant;
 import com.matrix.join.dao.ResumeAttachMapper;
@@ -69,5 +71,24 @@ public class ResumeAttachServiceImpl extends ServiceImpl<ResumeAttachMapper, Res
         // 删除文件
         FileUtils.removeFile(StringUtils.concat(projectPath, attach.getUrl()));
         return resumeAttachMapper.delete(updateWrapper);
+    }
+
+    @Override
+    public void deleteResumeAttach(BigInteger attachId) {
+        UpdateWrapper<ResumeAttachEntity> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.eq("attach_id", attachId);
+        resumeAttachMapper.delete(updateWrapper);
+    }
+
+    @Override
+    public IPage<ResumeAttachEntity> listAttach(BigInteger userId, BigInteger attachId, Page<ResumeAttachEntity> page) {
+        QueryWrapper<ResumeAttachEntity> wrapper = new QueryWrapper<>();
+        if (Objects.nonNull(userId)) {
+            wrapper.eq("user_id", userId);
+        }
+        if (Objects.nonNull(attachId)) {
+            wrapper.eq("attach_id", attachId);
+        }
+        return resumeAttachMapper.selectPage(page, wrapper);
     }
 }
