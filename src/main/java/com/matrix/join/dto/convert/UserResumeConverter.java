@@ -18,14 +18,18 @@ import java.util.stream.Collectors;
 @Component
 public class UserResumeConverter extends CommonConverter{
 
-    @Autowired
-    ResumeConverter resumeConverter;
+    private ResumeConverter resumeConverter;
+
+    private ResumeEducationConverter educationConverter;
+
+    private ResumeWorkExperienceConverter workExperienceConverter;
 
     @Autowired
-    ResumeEducationConverter educationConverter;
-
-    @Autowired
-    ResumeWorkExperienceConverter workExperienceConverter;
+    public UserResumeConverter(ResumeConverter resumeConverter, ResumeEducationConverter educationConverter, ResumeWorkExperienceConverter workExperienceConverter) {
+        this.resumeConverter = resumeConverter;
+        this.educationConverter = educationConverter;
+        this.workExperienceConverter = workExperienceConverter;
+    }
 
     /**
      * po -> dto

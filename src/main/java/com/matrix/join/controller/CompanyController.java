@@ -29,8 +29,12 @@ import java.util.stream.Collectors;
 @RequestMapping("/company")
 public class CompanyController {
 
+    private CompanyService companyService;
+
     @Autowired
-    CompanyService companyService;
+    public CompanyController(CompanyService companyService) {
+        this.companyService = companyService;
+    }
 
     @UserLogin
     @PostMapping("/saveCompany")
@@ -47,19 +51,20 @@ public class CompanyController {
                                                      @RequestParam(value = "scale", required = false, defaultValue = "0") byte scale,
                                                      @RequestParam(value = "stage", required = false, defaultValue = "0") byte stage,
                                                      @RequestParam(value = "isDel", required = false, defaultValue = "3") byte isDel) {
-        IPage<CompanyEntity> companyList = companyService.listCompany(name, city, scale, stage, isDel, new Page<CompanyEntity>(pageNum, pageSize));
+        IPage<CompanyEntity> companyList = companyService.listCompany(name, city, scale, stage, isDel, new Page<>(pageNum, pageSize));
         return new ApiResponse<List<CompanyDTO>>().builder().code(200).message("ok")
-                .data(companyList.getRecords().stream().map(x -> new CompanyDTO().setCompany(x)).collect(Collectors.toList())).pagination(Pagination.convertPage(companyList)).build();
+            .data(companyList.getRecords().stream().map(x -> new CompanyDTO().setCompany(x)).collect(Collectors.toList()))
+            .pagination(Pagination.convertPage(companyList)).build();
     }
 
     @GetMapping("/getCompanyInfo")
-    public ApiResponse<CompanyDTO> getCompanyInfo(@RequestParam(name = "companyNo", required = true) BigInteger companyNo) {
+    public ApiResponse<CompanyDTO> getCompanyInfo(@RequestParam(name = "companyNo") BigInteger companyNo) {
         CompanyEntity companyEntity = companyService.getCompanyByNo(companyNo);
         return ApiResponse.responseData(new CompanyDTO().setCompany(companyEntity));
     }
 
     @GetMapping("/getCompanyByUniformCreditCode")
-    public ApiResponse<CompanyDTO> getCompanyByUniformCreditCode(@RequestParam(name = "uniformCreditCode", required = true) String uniformCreditCode) {
+    public ApiResponse<CompanyDTO> getCompanyByUniformCreditCode(@RequestParam(name = "uniformCreditCode") String uniformCreditCode) {
         CompanyEntity companyEntity = companyService.getCompanyByUniformCreditCode(uniformCreditCode);
         return ApiResponse.responseData(new CompanyDTO().setCompany(companyEntity));
     }

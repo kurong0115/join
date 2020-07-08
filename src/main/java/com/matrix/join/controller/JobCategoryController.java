@@ -24,8 +24,12 @@ import java.util.stream.Collectors;
 @RequestMapping("/category")
 public class JobCategoryController {
 
+    private JobCategoryService jobCategoryService;
+
     @Autowired
-    JobCategoryService jobCategoryService;
+    public JobCategoryController(JobCategoryService jobCategoryService) {
+        this.jobCategoryService = jobCategoryService;
+    }
 
     @GetMapping(value = "/listAllCategory")
     public ApiResponse<List<JobCategoryDTO>> listAllCategory() {

@@ -30,7 +30,7 @@ public class ResponseFilter implements Filter {
         response.setHeader("Access-Control-Allow-Headers", "content-type,x-requested-with,Authorization, x-ui-request,lang,token");
         //访问控制允许凭据，true为允许
         response.setHeader("Access-Control-Allow-Credentials", "true");
-        if (request.getMethod().equals("OPTIONS")) {
+        if ("OPTIONS".equals(request.getMethod())) {
             response.setStatus(HttpStatus.SC_OK);
             response.getWriter().write("OPTIONS returns OK");
             return;

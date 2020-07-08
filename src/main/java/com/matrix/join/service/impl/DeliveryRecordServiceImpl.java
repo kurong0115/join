@@ -33,23 +33,27 @@ import java.util.Objects;
 public class DeliveryRecordServiceImpl extends ServiceImpl<DeliveryRecordMapper, DeliveryRecordEntity>
         implements DeliveryRecordService {
 
-    @Autowired
-    DeliveryRecordMapper deliveryRecordMapper;
+    private DeliveryRecordMapper deliveryRecordMapper;
 
-    @Autowired
-    ResumeService resumeService;
+    private ResumeService resumeService;
 
-    @Autowired
-    ResumeAttachService resumeAttachService;
+    private ResumeAttachService resumeAttachService;
 
-    @Autowired
-    JobService jobService;
+    private JobService jobService;
 
-    @Autowired
-    MailService mailService;
+    private MailService mailService;
 
     @Value("${file.head.project-path}")
     String projectPath;
+
+    @Autowired
+    public DeliveryRecordServiceImpl(DeliveryRecordMapper deliveryRecordMapper, ResumeService resumeService, ResumeAttachService resumeAttachService, JobService jobService, MailService mailService) {
+        this.deliveryRecordMapper = deliveryRecordMapper;
+        this.resumeService = resumeService;
+        this.resumeAttachService = resumeAttachService;
+        this.jobService = jobService;
+        this.mailService = mailService;
+    }
 
     @Override
     public DeliveryRecordEntity saveDeliveryRecord(DeliveryRecordEntity deliveryRecordEntity) {

@@ -25,7 +25,7 @@ public class PrimaryKeyGenerator {
             Thread.sleep(1);
             bigInteger = BigInteger.valueOf(System.currentTimeMillis());
         } catch (Exception e) {
-
+            e.printStackTrace();
         } finally {
             lock.unlock();
         }

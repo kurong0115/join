@@ -16,17 +16,21 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/mail")
 public class MailController {
 
+    private MailService mailService;
+
     @Autowired
-    MailService mailService;
+    public MailController(MailService mailService) {
+        this.mailService = mailService;
+    }
 
     @PostMapping(value = "/sendSimpleEmail")
-    public ApiResponse<String> sendSimpleEmail(@RequestParam(value = "email", required = true) String email) {
+    public ApiResponse<String> sendSimpleEmail(@RequestParam(value = "email") String email) {
         mailService.sendSimpleMessage(email);
         return new ApiResponse<String>().builder().code(200).message("ok").build();
     }
 
     @PostMapping(value = "/sendRecoveryEmail")
-    public ApiResponse<Object> sendRecoveryEmail(@RequestParam(value = "email", required = true) String email) {
+    public ApiResponse<Object> sendRecoveryEmail(@RequestParam(value = "email") String email) {
         mailService.sendRecoveryEmail(email);
         return ApiResponse.responseData(null);
     }

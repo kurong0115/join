@@ -35,11 +35,15 @@ import java.util.Objects;
 @Transactional(rollbackFor = Exception.class)
 public class CompanyServiceImpl extends ServiceImpl<CompanyMapper, CompanyEntity> implements CompanyService {
 
-    @Autowired
-    CompanyMapper companyMapper;
+    private CompanyMapper companyMapper;
+
+    private UserMapper userMapper;
 
     @Autowired
-    UserMapper userMapper;
+    public CompanyServiceImpl(CompanyMapper companyMapper, UserMapper userMapper) {
+        this.companyMapper = companyMapper;
+        this.userMapper = userMapper;
+    }
 
     @Override
     public CompanyEntity getCompanyByNo(BigInteger companyNo) {

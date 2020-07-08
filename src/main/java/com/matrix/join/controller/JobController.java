@@ -32,11 +32,15 @@ import java.util.stream.Collectors;
 @RequestMapping(value = "/job")
 public class JobController {
 
-    @Autowired
-    JobService jobService;
+    private JobService jobService;
+
+    private CompanyService companyService;
 
     @Autowired
-    CompanyService companyService;
+    public JobController(JobService jobService, CompanyService companyService) {
+        this.jobService = jobService;
+        this.companyService = companyService;
+    }
 
     @UserLogin
     @PostMapping("/saveJob")
@@ -48,8 +52,8 @@ public class JobController {
 
     @UserLogin
     @DeleteMapping("/removeJob")
-    public ApiResponse<String> removeJob(@RequestParam(value = "jobNo", required = true) BigInteger jobNo,
-                                         @RequestParam(value = "userId", required = true) BigInteger userId) {
+    public ApiResponse<String> removeJob(@RequestParam(value = "jobNo") BigInteger jobNo,
+                                         @RequestParam(value = "userId") BigInteger userId) {
         int result = jobService.removeJob(jobNo, userId);
         if (result == 0) {
             return new ApiResponse<String>().builder().code(200).message("ok").message("删除失败").build();
@@ -71,7 +75,7 @@ public class JobController {
                                              @RequestParam(value = "creator", required = false) BigInteger creator,
                                              @RequestParam(value = "isDel", required = false, defaultValue = "3") byte isDel){
         IPage<JobEntity> jobList = jobService.listJob(name, jobCategory, city,
-                salary, workExperience, education, gender,jobType, creator, isDel, new Page<JobEntity>(pageNum, pageSize));
+                salary, workExperience, education, gender,jobType, creator, isDel, new Page<>(pageNum, pageSize));
         return new ApiResponse<List<JobDTO>>().builder().code(200).message("ok").data(jobList.getRecords().stream()
                 .map(x -> DTOConverter.convert(x, JobDTO.class)).collect(Collectors.toList())).pagination(Pagination.convertPage(jobList)).build();
     }
@@ -84,7 +88,7 @@ public class JobController {
     }
 
     @GetMapping(value = "/getJobInfo")
-    public ApiResponse<CompanyJobDTO> getJobInfo(@RequestParam(value = "jobNo", required = true) BigInteger jobNo) {
+    public ApiResponse<CompanyJobDTO> getJobInfo(@RequestParam(value = "jobNo") BigInteger jobNo) {
         JobEntity jobEntity = jobService.getJob(jobNo);
         CompanyEntity companyEntity = companyService.getCompanyByNo(jobEntity.getCompanyNo());
         return new ApiResponse<CompanyJobDTO>().builder().code(200).message("ok")

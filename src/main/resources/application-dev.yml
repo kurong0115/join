@@ -34,9 +34,9 @@ spring:
         # 连接池中的最小空闲连接 默认 0
         min-idle: 0
   datasource:
-    url: jdbc:mysql://localhost:3306/join?useUnicode=true&autoReconnect=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Hongkong&allowMultiQueries=true
+    url: jdbc:mysql://rm-wz9j6e0l0841oe8b83o.mysql.rds.aliyuncs.com:3306/join?useUnicode=true&autoReconnect=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Hongkong&allowMultiQueries=true
     username: root
-    password: system
+    password: 147369vbnmP
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
@@ -89,6 +89,8 @@ mybatis-plus:
   #实体扫描，多个package用逗号或者分号分隔
   typeAliasesPackage: com.matrix.join.entity
   typeEnumsPackage: com.matrix.join.common
+  configuration:
+    map-underscore-to-camel-case: true
 
 file:
   head:

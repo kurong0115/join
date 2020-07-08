@@ -38,17 +38,23 @@ import java.util.Objects;
 @Transactional(rollbackFor = Exception.class)
 public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> implements UserService {
 
-    @Autowired
-    UserMapper userMapper;
+    private UserMapper userMapper;
+
+    private RedisUtil redisUtil;
 
     @Autowired
-    RedisUtil redisUtil;
+    public UserServiceImpl(UserMapper userMapper, RedisUtil redisUtil) {
+        this.userMapper = userMapper;
+        this.redisUtil = redisUtil;
+    }
 
     @Override
     public UserEntity login(String email, String password, Byte userType) {
         QueryWrapper<UserEntity> wrapper = new QueryWrapper<>();
-        wrapper.eq("type", userType);
         wrapper.eq(UserConstant.EMAIL, email);
+        if (Objects.nonNull(userType)) {
+            wrapper.eq("type", userType);
+        }
         // 加密
         wrapper.eq(UserConstant.PASSWORD, SecretUtils.getMD5String(password));
         UserEntity userEntity = userMapper.selectOne(wrapper);

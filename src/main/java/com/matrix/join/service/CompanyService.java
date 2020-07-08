@@ -43,6 +43,7 @@ public interface CompanyService extends IService<CompanyEntity> {
      * @param city
      * @param scale
      * @param stage
+     * @param isDel
      * @param companyEntityPage
      * @return
      */
@@ -51,6 +52,7 @@ public interface CompanyService extends IService<CompanyEntity> {
     /**
      * 停用公司
      * @param companyNo
+     * @param isDel
      */
     void stopCompany(BigInteger companyNo, Byte isDel);
 }

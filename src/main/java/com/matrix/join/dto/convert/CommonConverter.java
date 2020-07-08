@@ -37,9 +37,10 @@ public class CommonConverter {
                 try {
                     if (x.getParameterTypes()[0].getSimpleName()
                             .equals(dtoClass.getMethod(BasicConstant.GET + x.getName()
-                                    .substring(BasicConstant.PARAMETER_START_INDEX)).getReturnType().getSimpleName())) {
+                            .substring(BasicConstant.PARAMETER_START_INDEX)).getReturnType().getSimpleName())) {
                         try {
-                            x.invoke(finalT, dtoClass.getMethod(BasicConstant.GET + x.getName().substring(BasicConstant.PARAMETER_START_INDEX)).invoke(obj));
+                            x.invoke(finalT, dtoClass.getMethod(BasicConstant.GET + x.getName()
+                                .substring(BasicConstant.PARAMETER_START_INDEX)).invoke(obj));
                         } catch (IllegalAccessException e) {
                             e.printStackTrace();
                         } catch (InvocationTargetException e) {

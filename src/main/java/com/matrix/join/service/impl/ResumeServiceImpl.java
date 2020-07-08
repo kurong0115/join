@@ -39,20 +39,20 @@ import java.util.stream.Collectors;
 @Transactional(rollbackFor = Exception.class)
 public class ResumeServiceImpl extends ServiceImpl<ResumeMapper, ResumeEntity> implements ResumeService {
 
-    @Autowired
-    ResumeMapper resumeMapper;
+    private ResumeMapper resumeMapper;
+
+
+    private ResumeEducationService resumeEducationService;
+
+
+    private ResumeWorkExperienceService resumeWorkExperienceService;
 
     @Autowired
-    ResumeEducationMapper resumeEducationMapper;
-
-    @Autowired
-    ResumeEducationService resumeEducationService;
-
-    @Autowired
-    ResumeWorkExperienceMapper resumeWorkExperienceMapper;
-
-    @Autowired
-    ResumeWorkExperienceService resumeWorkExperienceService;
+    public ResumeServiceImpl(ResumeMapper resumeMapper, ResumeEducationService resumeEducationService, ResumeWorkExperienceService resumeWorkExperienceService) {
+        this.resumeMapper = resumeMapper;
+        this.resumeEducationService = resumeEducationService;
+        this.resumeWorkExperienceService = resumeWorkExperienceService;
+    }
 
     @CacheEvict(value = "resume", key = "#result.resume.userId")
     @Override
@@ -63,8 +63,8 @@ public class ResumeServiceImpl extends ServiceImpl<ResumeMapper, ResumeEntity> i
             resumeId = PrimaryKeyGenerator.generatePrimaryKey();
             userResume.getResume().setResumeId(resumeId);
             BigInteger finalResumeId = resumeId;
-            userResume.getResumeEducationList().stream().forEach(x -> x.setResumeId(finalResumeId));
-            userResume.getResumeWorkExperienceList().stream().forEach(x -> x.setResumeId(finalResumeId));
+            userResume.getResumeEducationList().forEach(x -> x.setResumeId(finalResumeId));
+            userResume.getResumeWorkExperienceList().forEach(x -> x.setResumeId(finalResumeId));
         }
         saveOrUpdate(userResume.getResume());
         // 新增或修改教育经历
@@ -98,7 +98,6 @@ public class ResumeServiceImpl extends ServiceImpl<ResumeMapper, ResumeEntity> i
             wrapper.eq("user_id", userId);
         }
         Page<ResumeEntity> resumeList = resumeMapper.selectPage(page, wrapper);
-        System.out.println(resumeList.getCurrent() + "-" + resumeList.getSize() + "-" + resumeList.getTotal());
         Page<UserResume> userResumeList = new Page<>();
         List<UserResume> collect = resumeList.getRecords().stream().map(x -> {
             List<ResumeEducationEntity> educationList = resumeEducationService.list(new QueryWrapper<ResumeEducationEntity>().eq("user_id", x.getUserId()));

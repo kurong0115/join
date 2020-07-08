@@ -37,14 +37,18 @@ import java.util.Objects;
 @Transactional(rollbackFor = Exception.class)
 public class JobServiceImpl extends ServiceImpl<JobMapper, JobEntity> implements JobService {
 
-    @Autowired
-    JobMapper jobMapper;
+    private JobMapper jobMapper;
+
+    private UserService userService;
+
+    private CompanyService companyService;
 
     @Autowired
-    UserService userService;
-
-    @Autowired
-    CompanyService companyService;
+    public JobServiceImpl(JobMapper jobMapper, UserService userService, CompanyService companyService) {
+        this.jobMapper = jobMapper;
+        this.userService = userService;
+        this.companyService = companyService;
+    }
 
     @Override
     public JobEntity saveJob(JobEntity jobEntity) {
@@ -58,7 +62,7 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, JobEntity> implements
         // 生成职位编号
         jobEntity.setJobNo(PrimaryKeyGenerator.generatePrimaryKey());
         jobEntity.setCompanyNo(user.getCompanyNo());
-        int result = jobMapper.insert(jobEntity);
+        jobMapper.insert(jobEntity);
         return jobEntity;
     }
 
@@ -97,7 +101,7 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, JobEntity> implements
         }
         Page<JobEntity> page = jobMapper.selectPage(jobEntityPage, wrapper);
         if (Objects.nonNull(page) && Objects.nonNull(page.getRecords())) {
-            page.getRecords().stream().forEach(x -> {
+            page.getRecords().forEach(x -> {
                 CompanyEntity company = companyService.getCompanyByNo(x.getCompanyNo());
                 if (Objects.nonNull(company)) {
                     x.setIcon(company.getIcon());

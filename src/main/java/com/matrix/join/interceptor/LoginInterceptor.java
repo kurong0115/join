@@ -31,8 +31,12 @@ import java.math.BigInteger;
 @Component
 public class LoginInterceptor implements HandlerInterceptor {
 
+    private UserService userService;
+
     @Autowired
-    UserService userService;
+    public LoginInterceptor(UserService userService) {
+        this.userService = userService;
+    }
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {

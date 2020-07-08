@@ -1,13 +1,10 @@
 package com.matrix.join.util;
 
 import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.matrix.join.entity.UserEntity;
 
-import java.math.BigInteger;
 import java.util.Objects;
-import java.util.UUID;
 
 /**
  * @ClassName JwtUtils
@@ -26,16 +23,10 @@ public class JwtUtils {
      * @return
      */
     public static String getToken(UserEntity user){
-        String token = null;
         if (Objects.isNull(user)){
             return null;
         }
-        token = JWT.create().withAudience(user.getUserId().toString()).sign(Algorithm.HMAC256(SECRET));
-        return token;
+        return JWT.create().withAudience(user.getUserId().toString()).sign(Algorithm.HMAC256(SECRET));
     }
 
-    public static void main(String[] args) {
-        String id = JWT.decode(getToken(new UserEntity().setUserId(BigInteger.valueOf(111)))).getAudience().get(0);
-        System.out.println(id);
-    }
 }

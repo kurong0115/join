@@ -28,14 +28,18 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class MailServiceImpl implements MailService {
 
-	@Autowired
 	private JavaMailSender mailSender;
 
 	@Value("${spring.mail.username}")
 	private String from;
 
-	@Autowired
-    RedisUtil redisUtil;
+    private RedisUtil redisUtil;
+
+    @Autowired
+	public MailServiceImpl(JavaMailSender mailSender, RedisUtil redisUtil) {
+		this.mailSender = mailSender;
+		this.redisUtil = redisUtil;
+	}
 
 	@Async
 	@Override
@@ -63,7 +67,8 @@ public class MailServiceImpl implements MailService {
 	public void sendRecoveryEmail(String email) {
         String emailKey = StringUtils.concat(email, MailConstant.RECOVERY);
         String secret = SecretUtils.getUUID();
-        String text = StringUtils.concat(MailConstant.RECOVERY_PREFIX, MailConstant.PROJECT_PATH, email, "&secret=", secret, MailConstant.SUFFIX);
+        String text = StringUtils.concat(MailConstant.RECOVERY_PREFIX,
+                MailConstant.PROJECT_PATH, email, "&secret=", secret, MailConstant.SUFFIX);
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(from);
         message.setSubject(MailConstant.RECOVERY_SUBJECT);

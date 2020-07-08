@@ -18,7 +18,7 @@ public class StringUtils {
      */
     public static String concat(String...param) {
         StringBuilder stringBuilder = new StringBuilder();
-        Arrays.stream(param).forEach(x -> stringBuilder.append(x));
+        Arrays.stream(param).forEach(stringBuilder::append);
         return stringBuilder.toString();
     }
 }

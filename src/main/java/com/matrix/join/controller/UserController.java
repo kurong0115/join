@@ -13,7 +13,6 @@ import com.matrix.join.entity.UserEntity;
 import com.matrix.join.protocol.ApiResponse;
 import com.matrix.join.protocol.Pagination;
 import com.matrix.join.service.CompanyService;
-import com.matrix.join.service.MailService;
 import com.matrix.join.service.UserService;
 import com.matrix.join.util.JwtUtils;
 import io.swagger.annotations.Api;
@@ -41,24 +40,26 @@ import java.util.stream.Collectors;
 @Api(value = "用户接口")
 public class UserController {
 
-    @Autowired
-    UserService userService;
+    private UserService userService;
+
+    private CompanyService companyService;
 
     @Autowired
-    CompanyService companyService;
-
-    @Autowired
-    MailService mailService;
+    public UserController(UserService userService, CompanyService companyService) {
+        this.userService = userService;
+        this.companyService = companyService;
+    }
 
     @ApiOperation(value = "用户登录")
     @PostMapping(value = "/login")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "email", value = "邮箱", required = true),
-            @ApiImplicitParam(name = "password", value = "密码", required = true)
+            @ApiImplicitParam(name = "password", value = "密码", required = true),
+            @ApiImplicitParam(name = "type", value = "用户类型", required = true)
     })
-    public ApiResponse<UserInfoDTO> login(@RequestParam(value = "email", required = true) String email,
-                                          @RequestParam(value = "password", required = true) String password,
-                                          @RequestParam(value = "type", required = true) Byte userType) {
+    public ApiResponse<UserInfoDTO> login(@RequestParam(value = "email") String email,
+                                          @RequestParam(value = "password") String password,
+                                          @RequestParam(value = "type", required = false) Byte userType) {
         UserEntity userEntity = userService.login(email, password, userType);
         UserInfoDTO infoDTO = UserInfoDTO.builder().user(userEntity).token(JwtUtils.getToken(userEntity)).build();
         return new ApiResponse<UserInfoDTO>().builder().code(200).message("ok").data(infoDTO).build();
@@ -70,14 +71,14 @@ public class UserController {
                                                @RequestParam(value = "pageSize", defaultValue = "9", required = false) int pageSize,
                                                @RequestParam(value = "isDel", required = false, defaultValue = "3") byte isDel,
                                                @RequestParam(value = "name", required = false) String name) {
-        IPage<UserEntity> page = userService.listUser(name, isDel, new Page<UserEntity>(pageNum, pageSize));
+        IPage<UserEntity> page = userService.listUser(name, isDel, new Page<>(pageNum, pageSize));
         return new ApiResponse<List<UserDTO>>().builder().code(200).message("ok")
                 .data(page.getRecords().stream().map(x -> new UserDTO().setUserEntity(x)).collect(Collectors.toList()))
                 .pagination(Pagination.convertPage(page)).build();
     }
 
     @GetMapping(value = "/getUserInfoById")
-    public ApiResponse<UserDTO> get(@RequestParam(value = "userId", required = true) BigInteger userId) {
+    public ApiResponse<UserDTO> get(@RequestParam(value = "userId") BigInteger userId) {
         UserEntity userEntity = userService.getUserByUserId(userId);
         return new ApiResponse<UserDTO>().builder().code(200).message("ok").data(new UserDTO().setUserEntity(userEntity)).build();
     }
@@ -109,31 +110,31 @@ public class UserController {
 
     @UserLogin
     @PostMapping(value = "/bindCompany")
-    public ApiResponse<String> bindCompany(@RequestParam(value = "companyNo", required = true) BigInteger companyNo,
-                                           @RequestParam(value = "userId", required = true) BigInteger userId) {
-        int result = userService.bindCompany(userId, companyNo);
+    public ApiResponse<String> bindCompany(@RequestParam(value = "companyNo") BigInteger companyNo,
+                                           @RequestParam(value = "userId") BigInteger userId) {
+        userService.bindCompany(userId, companyNo);
         return ApiResponse.responseData(null);
     }
 
     @PostMapping(value = "/recoveryPassword")
-    public ApiResponse<Object> recoveryPassword(@RequestParam(name = "email", required = true) String email,
-                                                @RequestParam(name = "secret", required = true) String secret) {
+    public ApiResponse<Object> recoveryPassword(@RequestParam(name = "email") String email,
+                                                @RequestParam(name = "secret") String secret) {
         userService.recoveryPassword(email, secret);
         return ApiResponse.responseData(null);
     }
 
     @UserLogin
     @PostMapping(value = "/unbound")
-    public ApiResponse<Object> unbound(@RequestParam(name = "userId", required = true) BigInteger userId) {
+    public ApiResponse<Object> unbound(@RequestParam(name = "userId") BigInteger userId) {
         userService.unbound(userId);
         return ApiResponse.responseData(null);
     }
 
     @UserLogin
     @PostMapping(value = "/updatePassword")
-    public ApiResponse<Object> updatePassword(@RequestParam(name = "userId", required = true) BigInteger userId,
-                                              @RequestParam(name = "password", required = true) String password,
-                                              @RequestParam(name = "oldPassword", required = true) String oldPassword) {
+    public ApiResponse<Object> updatePassword(@RequestParam(name = "userId") BigInteger userId,
+                                              @RequestParam(name = "password") String password,
+                                              @RequestParam(name = "oldPassword") String oldPassword) {
         userService.updatePassword(userId, password, oldPassword);
         return ApiResponse.responseData(null);
     }

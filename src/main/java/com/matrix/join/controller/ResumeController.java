@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.matrix.join.annotation.UserLogin;
 import com.matrix.join.dto.UserResumeDTO;
 import com.matrix.join.dto.convert.UserResumeConverter;
-import com.matrix.join.entity.ResumeEntity;
 import com.matrix.join.entity.UserResume;
 import com.matrix.join.protocol.ApiResponse;
 import com.matrix.join.protocol.Pagination;
@@ -29,11 +28,15 @@ import java.util.stream.Collectors;
 @RequestMapping(value = "/resume")
 public class ResumeController {
 
-    @Autowired
-    ResumeService resumeService;
+    private ResumeService resumeService;
+
+    private UserResumeConverter userResumeConverter;
 
     @Autowired
-    UserResumeConverter userResumeConverter;
+    public ResumeController(ResumeService resumeService, UserResumeConverter userResumeConverter) {
+        this.resumeService = resumeService;
+        this.userResumeConverter = userResumeConverter;
+    }
 
     @UserLogin
     @PostMapping(value = "/saveResume")
@@ -44,7 +47,7 @@ public class ResumeController {
 
     @UserLogin
     @GetMapping(value = "/getResume")
-    public ApiResponse<UserResumeDTO> getResume(@RequestParam(value = "userId", required = true) BigInteger userId) {
+    public ApiResponse<UserResumeDTO> getResume(@RequestParam(value = "userId") BigInteger userId) {
         UserResume userResume = resumeService.getResume(userId);
         return ApiResponse.responseData(userResumeConverter.convertPOToDTO(userResume));
     }
@@ -55,10 +58,10 @@ public class ResumeController {
                                                        @RequestParam(name = "userId", required = false) BigInteger userId,
                                                        @RequestParam(name = "pageNum", required = false, defaultValue = "1") int pageNum,
                                                        @RequestParam(name = "pageSize", required = false, defaultValue = "9") int pageSize) {
-        IPage<UserResume> resumeList = resumeService.listResume(resumeId, userId, new Page<ResumeEntity>(pageNum, pageSize));
+        IPage<UserResume> resumeList = resumeService.listResume(resumeId, userId, new Page<>(pageNum, pageSize));
         return new ApiResponse<List<UserResumeDTO>>().builder().code(200).message("ok")
-                .data(resumeList.getRecords().stream().map(x -> userResumeConverter.convertPOToDTO(x))
-                .collect(Collectors.toList())).pagination(Pagination.convertPage(resumeList)).build();
+            .data(resumeList.getRecords().stream().map(x -> userResumeConverter.convertPOToDTO(x))
+            .collect(Collectors.toList())).pagination(Pagination.convertPage(resumeList)).build();
     }
 
     @UserLogin

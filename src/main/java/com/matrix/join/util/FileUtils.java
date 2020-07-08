@@ -15,9 +15,9 @@ public class FileUtils {
      * 删除指定路径的文件
      * @param path
      */
-    public static void removeFile(String path) {
+    public static boolean removeFile(String path) {
         File file = new File(path);
-        file.delete();
+        return file.delete();
     }
 
     /**

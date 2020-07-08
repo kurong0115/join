@@ -96,8 +96,14 @@ mybatis-plus:
   typeAliasesPackage: com.matrix.join.entity
   typeEnumsPackage: com.matrix.join.common
 
+#file:
+#  head:
+#    path: /usr/jobya/jobya/images/head/
+#    file-path: images/head/
+#    project-path: /usr/jobya/jobya/
+
 file:
   head:
-    path: /usr/jobya/jobya/images/head/
+    path: /usr/apache-tomcat-8.5.50/webapps/jobya/images/head/
     file-path: images/head/
-    project-path: /usr/jobya/jobya/
+    project-path: /usr/apache-tomcat-8.5.50/webapps/jobya/

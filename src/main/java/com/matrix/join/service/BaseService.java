@@ -13,4 +13,5 @@ public interface BaseService {
      * 清除内存
      */
     void flushDB();
+
 }

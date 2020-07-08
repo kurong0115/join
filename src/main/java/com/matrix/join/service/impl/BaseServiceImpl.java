@@ -18,8 +18,12 @@ import java.util.Set;
 @Service
 public class BaseServiceImpl implements BaseService {
 
+    private StringRedisTemplate redisTemplate;
+
     @Autowired
-    StringRedisTemplate redisTemplate;
+    public BaseServiceImpl(StringRedisTemplate redisTemplate) {
+        this.redisTemplate = redisTemplate;
+    }
 
     @Scheduled(cron = "0 0 3/1 * * ?")
     @Override
@@ -27,4 +31,5 @@ public class BaseServiceImpl implements BaseService {
         Set<String> keys = redisTemplate.keys("*");
         redisTemplate.delete(keys);
     }
+
 }

@@ -30,4 +30,8 @@ public class MailConstant {
     public static final String RECOVERY_PREFIX = "您收到的用于重置密码的链接：";
 
     public static final String PROJECT_PATH = "http://120.24.48.43:8080/jobya/recovery_passward.html?email=";
+
+    public static final String TEXT_PREFIX = "<div>";
+
+    public static final String TEXT_SUFFIX = "</div>";
 }

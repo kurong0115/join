@@ -12,6 +12,7 @@ public class JoinBizException extends RuntimeException{
     private static final long serialVersionUID = -8585326085578717092L;
 
     public JoinBizException() {
+        
     }
 
     public JoinBizException(String message) {

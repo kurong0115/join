@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-
     /**
      * 忽略参数异常处理器
      * @param e 忽略参数异常

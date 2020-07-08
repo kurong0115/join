@@ -30,15 +30,19 @@ import java.util.stream.Collectors;
 @RequestMapping(value = "/attach")
 public class ResumeAttachController {
 
-    @Autowired
-    ResumeAttachService resumeAttachService;
+    private ResumeAttachService resumeAttachService;
+
+    private ResumeAttachConverter resumeAttachConverter;
 
     @Autowired
-    ResumeAttachConverter resumeAttachConverter;
+    public ResumeAttachController(ResumeAttachService resumeAttachService, ResumeAttachConverter resumeAttachConverter) {
+        this.resumeAttachService = resumeAttachService;
+        this.resumeAttachConverter = resumeAttachConverter;
+    }
 
     @UserLogin
     @GetMapping(value = "/listResumeAttach")
-    public ApiResponse<List<ResumeAttachDTO>> listResumeAttach(@RequestParam(value = "userId", required = true) BigInteger userId) {
+    public ApiResponse<List<ResumeAttachDTO>> listResumeAttach(@RequestParam(value = "userId") BigInteger userId) {
         List<ResumeAttachEntity> attachList = resumeAttachService.list(new QueryWrapper<ResumeAttachEntity>().eq("user_id", userId));
         return ApiResponse.responseData(attachList.stream().map(x -> resumeAttachConverter.convertPOToDTO(x)).collect(Collectors.toList()));
     }
@@ -52,14 +56,14 @@ public class ResumeAttachController {
 
     @UserLogin
     @PostMapping(value = "/removeResumeAttach")
-    public ApiResponse<ResumeAttachDTO> removeResumeAttach(@RequestParam(value = "attachId", required = true) BigInteger attachId,
-                                                           @RequestParam(value = "userId", required = true) BigInteger userId) {
-        int result = resumeAttachService.removeResumeAttach(attachId, userId);
+    public ApiResponse<ResumeAttachDTO> removeResumeAttach(@RequestParam(value = "attachId") BigInteger attachId,
+                                                           @RequestParam(value = "userId") BigInteger userId) {
+        resumeAttachService.removeResumeAttach(attachId, userId);
         return ApiResponse.responseData(null);
     }
 
     @GetMapping(value = "/getResumeAttach")
-    public ApiResponse<ResumeAttachDTO> getResumeAttach(@RequestParam(value = "attachId", required = true) BigInteger attachId) {
+    public ApiResponse<ResumeAttachDTO> getResumeAttach(@RequestParam(value = "attachId") BigInteger attachId) {
         ResumeAttachEntity attach = resumeAttachService.getOne(new QueryWrapper<ResumeAttachEntity>().eq("attach_id", attachId));
         return ApiResponse.responseData(resumeAttachConverter.convertPOToDTO(attach));
     }
@@ -70,7 +74,7 @@ public class ResumeAttachController {
                                                          @RequestParam(value = "attachId") BigInteger attachId,
                                                          @RequestParam(name = "pageNum", required = false, defaultValue = "1") int pageNum,
                                                          @RequestParam(name = "pageSize", required = false, defaultValue = "10") int pageSize) {
-        IPage<ResumeAttachEntity> page = resumeAttachService.listAttach(userId, attachId, new Page<ResumeAttachEntity>(pageNum, pageSize));
+        IPage<ResumeAttachEntity> page = resumeAttachService.listAttach(userId, attachId, new Page<>(pageNum, pageSize));
         return new ApiResponse<List<ResumeAttachDTO>>().builder().code(200).message("ok")
                 .data(page.getRecords().stream().map(x -> resumeAttachConverter.convertPOToDTO(x)).collect(Collectors.toList()))
                 .pagination(Pagination.convertPage(page))

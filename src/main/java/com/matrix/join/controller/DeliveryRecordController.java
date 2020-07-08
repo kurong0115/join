@@ -30,11 +30,15 @@ import java.util.List;
 @RequestMapping(value = "/delivery")
 public class DeliveryRecordController {
 
-    @Autowired
-    DeliveryRecordConverter deliveryRecordConverter;
+    private DeliveryRecordConverter deliveryRecordConverter;
+
+    private DeliveryRecordService deliveryRecordService;
 
     @Autowired
-    DeliveryRecordService deliveryRecordService;
+    public DeliveryRecordController(DeliveryRecordConverter deliveryRecordConverter, DeliveryRecordService deliveryRecordService) {
+        this.deliveryRecordConverter = deliveryRecordConverter;
+        this.deliveryRecordService = deliveryRecordService;
+    }
 
     @UserLogin
     @PostMapping(value = "/saveDeliveryRecord")
@@ -52,17 +56,17 @@ public class DeliveryRecordController {
                                                                   @RequestParam(name = "receiver", required = false) BigInteger receiver,
                                                                   @RequestParam(name = "pageNum", required = false, defaultValue = "1") int pageNum,
                                                                   @RequestParam(name = "pageSize", required = false, defaultValue = "6") int pageSize) {
-        IPage<DeliveryRecordVO> deliveryRecord = deliveryRecordService.listDeliveryRecord(jobName, recordId, state, sender, receiver, new Page<DeliveryRecordVO>(pageNum, pageSize));
+        IPage<DeliveryRecordVO> deliveryRecord = deliveryRecordService.listDeliveryRecord(jobName, recordId, state, sender, receiver, new Page<>(pageNum, pageSize));
         return new ApiResponse<List<DeliveryRecordVO>>().builder().code(200).message("ok")
                 .data(deliveryRecord.getRecords()).pagination(Pagination.convertPage(deliveryRecord)).build();
     }
 
     @UserLogin
     @PostMapping(value = "/updateDeliveryState")
-    public ApiResponse<DeliveryRecordVO> updateDeliveryState(@RequestParam(value = "userId", required = true) BigInteger userId,
-                                                             @RequestParam(value = "recordId", required = true) BigInteger recordId,
-                                                             @RequestParam(value = "state", required = true) Byte state) {
-        int result = deliveryRecordService.updateDeliveryState(userId, recordId, state);
+    public ApiResponse<DeliveryRecordVO> updateDeliveryState(@RequestParam(value = "userId") BigInteger userId,
+                                                             @RequestParam(value = "recordId") BigInteger recordId,
+                                                             @RequestParam(value = "state") Byte state) {
+        deliveryRecordService.updateDeliveryState(userId, recordId, state);
         return ApiResponse.responseData(null);
     }
 }

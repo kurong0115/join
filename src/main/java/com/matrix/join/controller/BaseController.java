@@ -28,6 +28,7 @@ import java.io.IOException;
  * @Date 2020/2/28 9:36
  * @Version 1.0
  */
+@SuppressWarnings("all")
 @RestController
 @RequestMapping("/base")
 public class BaseController {
@@ -41,17 +42,21 @@ public class BaseController {
     @Value("${file.head.project-path}")
     String projectPath;
 
-    @Autowired
-    CompanyService companyService;
+    private CompanyService companyService;
+
+    private JobService jobService;
+
+    private UserService userService;
+
+    private DeliveryRecordService recordService;
 
     @Autowired
-    JobService jobService;
-
-    @Autowired
-    UserService userService;
-
-    @Autowired
-    DeliveryRecordService recordService;
+    public BaseController(CompanyService companyService, JobService jobService, UserService userService, DeliveryRecordService recordService) {
+        this.companyService = companyService;
+        this.jobService = jobService;
+        this.userService = userService;
+        this.recordService = recordService;
+    }
 
     @UserLogin
     @PostMapping("/upload")
@@ -64,7 +69,7 @@ public class BaseController {
             throw new JoinBizException("请输入正确格式文件");
         }
         try {
-            //File upFile = new File(StringUtils.concat(path, id, File.separator, filename));
+            /*File upFile = new File(StringUtils.concat(path, id, File.separator, filename));*/
             File upFile = new File(StringUtils.concat(path, id));
             if (!upFile.exists()) {
                 upFile.mkdir();

@@ -38,7 +38,6 @@ public class ResumeAttachConverter extends CommonConverter{
      * @return
      */
     public ResumeAttachEntity convertDTOToPO(ResumeAttachDTO resumeAttachDTO) {
-        ResumeAttachEntity po = super.convert(ResumeAttachEntity.class, resumeAttachDTO);
-        return po;
+        return super.convert(ResumeAttachEntity.class, resumeAttachDTO);
     }
 }

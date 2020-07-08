@@ -1,5 +1,7 @@
 package com.matrix.join.util;
 
+import java.util.Objects;
+
 /**
  * @ClassName ByteUtils
  * @Description TODO
@@ -15,7 +17,7 @@ public class DataTypeUtils {
      * @return
      */
     public static Integer convertByteToInteger(Byte num) {
-        if (num == null) {
+        if (Objects.isNull(num)) {
             return null;
         } else {
             return num.intValue();
@@ -28,7 +30,7 @@ public class DataTypeUtils {
      * @return
      */
     public static Byte convertIntegerToByte(Integer num) {
-        if (num == null) {
+        if (Objects.isNull(num)) {
             return null;
         } else {
             return num.byteValue();
