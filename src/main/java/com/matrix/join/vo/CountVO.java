@@ -17,6 +17,10 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 @Accessors(chain = true)
 public class CountVO {
+
+    /**
+     * 公司数目
+     */
     private Integer companyCount;
 
     private Integer memberCount;
